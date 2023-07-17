@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>后退</title>
+    <desc>Created with Sketch.</desc>
+    <g id="后退" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-3备份" transform="translate(10.000000, 10.000000) scale(-1, 1) translate(-10.000000, -10.000000) ">
+            <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+            <path d="M18.9953125,16.3263158 C18.9953125,15.4421053 19.1640625,11.9526316 16.7125,9.18421053 C15.0625,7.32105263 12.9484375,6.37368421 9.9953125,6.22631579 L9.9953125,2 L1,8.73684211 L10,15.4736842 L10,11.2736842 C11.875,11.3315789 12.925,11.7526316 14.0640625,12.3263158 C15.5125,13.0526316 16.65625,14.6421053 17.6171875,16.3578947 L18.5171875,18 L19,18 C19,17.4684211 18.9953125,16.7947368 18.9953125,16.3263158 Z" id="路径" fill="#646566" fill-rule="nonzero" transform="translate(10.000000, 10.000000) scale(-1, 1) translate(-10.000000, -10.000000) "></path>
+        </g>
+    </g>
+</svg>
