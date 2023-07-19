@@ -132,12 +132,23 @@ export default {
 
             .com-item {
                 position: relative;
-                // min-height: 30px;
                 cursor: pointer;
-                border: 2px solid transparent;
 
                 &.actived {
-                    border: 2px solid #7545F3
+                    position: relative;
+
+                    &::before {
+                        content: '';
+                        display: inline-block;
+                        position: absolute;
+                        z-index: 10;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        border: 2px solid #7545F3
+                    }
+
                 }
 
                 .del {
