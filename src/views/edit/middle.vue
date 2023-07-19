@@ -159,7 +159,7 @@ export default {
                     position: absolute;
                     right: 0;
                     top: 0;
-                    z-index: 2;
+                    z-index: 100;
                     width: 24px;
                     height: 24px;
                     font-size: 16px;
