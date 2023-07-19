@@ -22,7 +22,7 @@
 </template>
   
 <script>
-import pageType from "@/const/pageType";
+import { pageType } from "@/const/systemType";
 import bgHeaderNav from '@/assets/images/bg_headerNav.svg';
 import { componentType, componentProperty } from "@/const/componentType";
 import { mapToMdComponents } from "../edit/utils";
@@ -38,15 +38,9 @@ export default {
             componentAry: [],
         }
     },
-    // computed: {
-    //     componentAry() {
-    //         return mapToMdComponents(this.pageLayout);
-    //     }
-    // },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            const { PER_HOME } = pageType;
-            vm.$api.app.perPageTemplateMappingQry({ pageId: PER_HOME })
+            vm.$api.app.perPageTemplateMappingQry({ pageId: pageType.HOME })
                 .then(res => {
                     const { templateContext = '{}' } = res.data || {};
                     const { headerNav = {}, footerNav = {}, pageLayout = [] } = JSON.parse(templateContext);
@@ -60,36 +54,9 @@ export default {
                 });
         })
     },
-    mounted() {
-        // const { PER_HOME } = pageType;
-        // this.$api.app.perPageTemplateMappingQry({ pageId: PER_HOME })
-        //     .then(res => {
-        //         const { templateContext = '{}' } = res.data || {};
-        //         const { headerNav = {}, footerNav = {}, pageLayout = [] } = JSON.parse(templateContext);
-        //         console.log('=====templateContext=======', JSON.parse(templateContext))
-        //         this.headerNav = headerNav;
-        //         this.footerNav = footerNav;
-        //         this.pageLayout = pageLayout;
-        //         this.componentAry = mapToMdComponents(this.pageLayout);
-        //     })
-        //     .catch(() => {
-        //     });
-    },
-    methods: {
-
-    }
 };
 </script>
   
-<style lang="less">
-.preview-index {
-    .dig-tb {
-        table {
-            width: 100% !important;
-        }
-    }
-}
-</style>
 <style scoped lang="less">
 .preview-index {
     position: relative;

@@ -48,16 +48,23 @@
         <el-dialog class="dig-preCode" title="预览页面" :visible.sync="dialogPreviewCodeVisible">
             <img :src="previewCode" />
         </el-dialog>
-        <el-dialog title="选择应用系统" :visible.sync="dialogTableVisible">
-            <el-table class="dig-tb" ref="multipleTable" :data="appList" tooltip-effect="dark">
-                <el-table-column type="selection" width="55">
-                </el-table-column>
-                <el-table-column label="应用名称" width="120">
-                    <template slot-scope="scope">{{ scope.row.name }}</template>
-                </el-table-column>
-                <el-table-column prop="guisu" label="应用归属" width="120">
-                </el-table-column>
-            </el-table>
+        <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="dialogTableVisible">
+            <el-row class="sys-tab">
+                <div class="item">
+                    <span>选择系统：</span>
+                    <el-select v-model="currentSystem" placeholder="请选择系统">
+                        <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="item">
+                    <span>选择页面：</span>
+                    <el-select v-model="currentPage" placeholder="请选择页面">
+                        <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-row>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogTableVisible = false">取 消</el-button>
                 <el-button type="primary" @click="onTemplateApply">确 定</el-button>
@@ -67,10 +74,10 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import pageType from "@/const/pageType";
 import MiddleIndex from "./middle.vue";
 import RightIndex from "./right.vue";
 import { componentType, componentTypeMap, componentProperty } from "@/const/componentType";
+import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 // 模版
 import img_moban_1 from '@/assets/images/img_moban_1.jpg';
@@ -147,26 +154,12 @@ export default {
             componentType,
             previewCode,
             ZuJianList: [],
+            systemMap,
+            currentSystem: '',
+            currentPage: '',
             templateId: new Date().getTime().toString(),
             dialogTableVisible: false,
             dialogPreviewCodeVisible: false,
-            appList: [{
-                Id: 'per',
-                name: '个人手机银行',
-                guisu: '渠道团队'
-            }, {
-                Id: 'ent',
-                name: '企业手机银行',
-                guisu: '渠道团队'
-            }, {
-                Id: 'wangdai',
-                name: '赣银快贷小程序',
-                guisu: '新网贷'
-            }, {
-                Id: 'xindai',
-                name: '信贷小程序',
-                guisu: '新网贷'
-            }]
         }
 
     },
@@ -179,6 +172,17 @@ export default {
         headerNav() {
             const { headerNav = {} } = this.templateInfo;
             return headerNav;
+        },
+        pageAry() {
+            const { currentSystem = '' } = this;
+            const _sp = systemPagesMap.filter(item => item.value == currentSystem);
+            if (_sp.length < 1) return {};
+            const _res = [];
+            _sp[0].pages.forEach(ele => {
+                const _t = pageMap.filter(val => val.value == ele)[0] || {};
+                _res.push(_t);
+            });
+            return _res;
         },
     },
     beforeRouteEnter(to, from, next) {
@@ -265,9 +269,16 @@ export default {
                 });
         },
         async onTemplateApply() {
+            const { currentSystem = '', currentPage = '' } = this;
+            if (!currentSystem || !currentPage) {
+                this.$message({
+                    message: '请先选择需要应用的系统和页面！',
+                    type: 'error'
+                });
+                return;
+            }
             await this.onTemplateSave();
-            const { PER_HOME } = pageType;
-            this.$api.app.perPageTemplateMappingUse({ templateId: this.templateId, pageId: PER_HOME })
+            this.$api.app.perPageTemplateMappingUse({ templateId: this.templateId, pageId: currentPage })
                 .then(() => {
                     this.$message({
                         message: '模版应用成功！',
@@ -301,9 +312,23 @@ export default {
 
 <style lang="less">
 .edit-index {
-    .dig-tb {
-        table {
-            width: 100% !important;
+    .dig-sys {
+        .sys-tab {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+
+            .item {
+
+                &:first-child {
+                    margin: 0 40px 0 0;
+                }
+
+                span {
+                    margin: 0 10px 0 0;
+                    font-size: 16px;
+                }
+            }
         }
     }
 

@@ -1,25 +1,15 @@
 <template>
   <el-container class="home-index" style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px">
-      <el-menu :default-openeds="['1', '3']">
+      <el-menu :default-openeds="['1', '2']">
         <el-menu-item index="1">
           <i class="el-icon-menu"></i>
           <span slot="title">概况</span>
         </el-menu-item>
-        <!-- <el-submenu index="1">
-          <template slot="title"><i class="el-icon-message"></i>页面列表</template>
-          <el-menu-item index="1-1">首页</el-menu-item>
-          <el-menu-item index="1-2">存款理财页面</el-menu-item>
-          <el-menu-item index="1-3">个人中心页面</el-menu-item>
-        </el-submenu> -->
-        <el-submenu index="3">
-          <template slot="title"><i class="el-icon-setting"></i>审核中心</template>
-          <el-menu-item index="3-1">待审核列表</el-menu-item>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title"><i class="el-icon-menu"></i>操作记录</template>
-          <el-menu-item index="2-1">操作记录查询</el-menu-item>
-        </el-submenu>
+        <el-menu-item index="2">
+          <i class="el-icon-setting"></i>
+          <span slot="title">操作记录</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -68,29 +58,35 @@
         </el-row>
       </el-main>
     </el-container>
-    <el-dialog title="选择应用系统" :visible.sync="applyDialogVisible">
-      <el-table class="dig-tb" ref="multipleTable" :data="appList" tooltip-effect="dark">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
-        <el-table-column label="应用名称" width="120">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
-        </el-table-column>
-        <el-table-column prop="guisu" label="应用归属" width="120">
-        </el-table-column>
-      </el-table>
+    <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="applyDialogVisible">
+      <el-row class="sys-tab">
+        <div class="item">
+          <span>选择系统：</span>
+          <el-select v-model="currentSystem" placeholder="请选择系统">
+            <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="item">
+          <span>选择页面：</span>
+          <el-select v-model="currentPage" placeholder="请选择页面">
+            <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="applyDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="onTemplateApply">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog class="dig_preCode" title="预览页面" :visible.sync="previewDialogVisible">
+    <el-dialog class="dig-preCode" title="预览页面" :visible.sync="previewDialogVisible">
       <img :src="previewCode" />
     </el-dialog>
   </el-container>
 </template>
 
 <script>
-import pageType from "@/const/pageType";
 import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 
@@ -107,23 +103,6 @@ export default {
       currentPage: '',
       selectedTmpId: '',
       loading: false,
-      appList: [{
-        Id: 'per',
-        name: '个人手机银行',
-        guisu: '渠道团队'
-      }, {
-        Id: 'ent',
-        name: '企业手机银行',
-        guisu: '渠道团队'
-      }, {
-        Id: 'wangdai',
-        name: '赣银快贷小程序',
-        guisu: '新网贷'
-      }, {
-        Id: 'xindai',
-        name: '信贷小程序',
-        guisu: '新网贷'
-      }]
     }
   },
   computed: {
@@ -157,10 +136,9 @@ export default {
     },
     // 新增模版
     onTemplateAdd() {
-      const { PER_HOME } = pageType;
       this.$router.push({
         name: 'editIndex',
-        query: { pageType: PER_HOME },
+        query: { systemType: this.currentSystem, pageType: this.currentSystem },
       })
     },
     // 显示模版应用弹框
@@ -171,8 +149,15 @@ export default {
     },
     // 模版应用至系统
     async onTemplateApply() {
-      const { PER_HOME } = pageType;
-      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId: PER_HOME })
+      const { currentSystem = '', currentPage = '' } = this;
+      if(!currentSystem || !currentPage) {
+        this.$message({
+            message: '请先选择需要应用的系统和页面！',
+            type: 'error'
+          });
+        return;
+      }
+      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId: currentPage })
         .then(() => {
           this.$message({
             message: '模版应用成功！',
@@ -191,10 +176,9 @@ export default {
     // 编辑模版
     onTemplateEdit(item = {}) {
       const { templateId } = item;
-      const { PER_HOME } = pageType;
       this.$router.push({
         name: 'editIndex',
-        query: { templateId, pageType: PER_HOME },
+        query: { templateId, },
       })
     }
   }
@@ -203,13 +187,27 @@ export default {
 
 <style lang="less">
 .home-index {
-  .dig-tb {
-    table {
-      width: 100% !important;
+  .dig-sys {
+    .sys-tab {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+
+      .item {
+
+        &:first-child {
+          margin: 0 40px 0 0;
+        }
+
+        span {
+          margin: 0 10px 0 0;
+          font-size: 16px;
+        }
+      }
     }
   }
 
-  .dig_preCode {
+  .dig-preCode {
     .el-dialog__body {
       display: flex;
       justify-content: center;
