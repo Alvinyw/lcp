@@ -42,8 +42,15 @@
         <el-row class="sys-tab">
           <div class="item">
             <span>选择系统：</span>
-            <el-select v-model="currentSystem" placeholder="请选择">
+            <el-select v-model="currentSystem" placeholder="请选择系统">
               <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+          <div class="item">
+            <span>选择页面：</span>
+            <el-select v-model="currentPage" placeholder="请选择页面">
+              <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
               </el-option>
             </el-select>
           </div>
@@ -84,7 +91,7 @@
 
 <script>
 import pageType from "@/const/pageType";
-import { systemMap, systemType, systemPages } from "@/const/system";
+import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 
 export default {
@@ -97,6 +104,7 @@ export default {
       previewCode,
       systemMap,
       currentSystem: '',
+      currentPage: '',
       selectedTmpId: '',
       loading: false,
       appList: [{
@@ -119,9 +127,16 @@ export default {
     }
   },
   computed: {
-    pageMap() {
-      const { pageLayout = {} } = this.templateInfo;
-      return pageLayout;
+    pageAry() {
+      const { currentSystem = '' } = this;
+      const _sp = systemPagesMap.filter(item => item.value == currentSystem);
+      if (_sp.length < 1) return {};
+      const _res = [];
+      _sp[0].pages.forEach(ele => {
+        const _t = pageMap.filter(val => val.value == ele)[0] || {};
+        _res.push(_t);
+      });
+      return _res;
     },
   },
   mounted() {
@@ -211,7 +226,6 @@ export default {
 .home-index {
   .el-header {
     background-color: #fdfdfd;
-    color: #aaa;
     line-height: 60px;
     border-bottom: 1px solid #aaa;
     box-shadow: #eee 5px 5px 8px 6px;
@@ -234,8 +248,13 @@ export default {
 
     .sys-tab {
       padding: 20px 15px;
+      display: flex;
+      justify-content: left;
+      align-items: center;
 
       .item {
+        margin: 0 50px 0 0;
+
         span {
           margin: 0 10px 0 0;
           font-size: 16px;
