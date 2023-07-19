@@ -2,12 +2,16 @@
   <el-container class="home-index" style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px">
       <el-menu :default-openeds="['1', '3']">
-        <el-submenu index="1">
+        <el-menu-item index="1">
+          <i class="el-icon-menu"></i>
+          <span slot="title">概况</span>
+        </el-menu-item>
+        <!-- <el-submenu index="1">
           <template slot="title"><i class="el-icon-message"></i>页面列表</template>
           <el-menu-item index="1-1">首页</el-menu-item>
           <el-menu-item index="1-2">存款理财页面</el-menu-item>
           <el-menu-item index="1-3">个人中心页面</el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
         <el-submenu index="3">
           <template slot="title"><i class="el-icon-setting"></i>审核中心</template>
           <el-menu-item index="3-1">待审核列表</el-menu-item>
@@ -32,16 +36,25 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
-
       <el-main class="tp-wrapper" v-loading="loading" element-loading-text="模版列表加载中"
         element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)">
+
+        <el-row class="sys-tab">
+          <div class="item">
+            <span>选择系统：</span>
+            <el-select v-model="currentSystem" placeholder="请选择">
+              <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </el-row>
         <div class="tp-add" @click="onTemplateAdd"><i class="el-icon-plus"></i></div>
         <el-row v-for="(item, index) in templateList" :key="index" class="tp">
           <el-row class="sec-btm">
             <p class="name">{{ item.templateName }}</p>
             <p class="date">{{ randomTime() }}</p>
-            <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">使用</el-link><el-link type="primary"
-                @click="onTemplateEdit(item)">编辑</el-link><el-link type="primary"
+            <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">使用</el-link><el-link
+                type="primary" @click="onTemplateEdit(item)">编辑</el-link><el-link type="primary"
                 @click="previewDialogVisible = true">预览</el-link>
             </p>
           </el-row>
@@ -71,6 +84,7 @@
 
 <script>
 import pageType from "@/const/pageType";
+import { systemMap, systemType, systemPages } from "@/const/system";
 import previewCode from '@/assets/images/preview_code.png';
 
 export default {
@@ -81,6 +95,8 @@ export default {
       applyDialogVisible: false,
       previewDialogVisible: false,
       previewCode,
+      systemMap,
+      currentSystem: '',
       selectedTmpId: '',
       loading: false,
       appList: [{
@@ -102,6 +118,12 @@ export default {
       }]
     }
   },
+  computed: {
+    pageMap() {
+      const { pageLayout = {} } = this.templateInfo;
+      return pageLayout;
+    },
+  },
   mounted() {
     this.loading = true;
     this.$api.app.perTemplateQryAll()
@@ -110,7 +132,7 @@ export default {
         this.templateList = list;
       })
       .catch(() => {
-      }).finally(()=> {
+      }).finally(() => {
         this.loading = false;
       });
   },
@@ -208,6 +230,19 @@ export default {
   }
 
   .tp-wrapper {
+    padding: 0 20px 20px;
+
+    .sys-tab {
+      padding: 20px 15px;
+
+      .item {
+        span {
+          margin: 0 10px 0 0;
+          font-size: 16px;
+        }
+      }
+    }
+
     .tp-add {
       display: inline-block;
       position: relative;
