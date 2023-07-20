@@ -2,9 +2,10 @@
     <el-container class="edit-index">
         <el-header class="sec-hd">
             <el-row class="lt"><el-button @click="goBack">返回</el-button></el-row>
-            <el-row class="rt"><el-button @click="dialogPreviewCodeVisible = true">预览</el-button><el-button
-                    @click="onTemplateSave">保存</el-button><el-button type="primary"
-                    @click="dialogTableVisible = true">应用</el-button></el-row>
+            <el-row class="rt"><el-button type="primary" @click="onTemplateSave">保存</el-button><el-button type="primary"
+                    @click="dialogTableVisible = true">应用</el-button><el-button type="primary"
+                    @click="onImportJSON">导入</el-button><el-button type="primary"
+                    @click="onExportJSON">导出</el-button></el-row>
         </el-header>
         <el-main class="sec-main">
             <el-row class="lt">
@@ -45,9 +46,6 @@
             <MiddleIndex />
             <RightIndex />
         </el-main>
-        <el-dialog class="dig-preCode" title="预览页面" :visible.sync="dialogPreviewCodeVisible">
-            <img :src="previewCode" />
-        </el-dialog>
         <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="dialogTableVisible">
             <el-row class="sys-tab">
                 <div class="item">
@@ -78,7 +76,6 @@ import MiddleIndex from "./middle.vue";
 import RightIndex from "./right.vue";
 import { componentType, componentTypeMap, componentProperty } from "@/const/componentType";
 import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
-import previewCode from '@/assets/images/preview_code.png';
 // 模版
 import img_moban_1 from '@/assets/images/img_moban_1.jpg';
 import img_moban_2 from '@/assets/images/img_moban_2.jpg';
@@ -152,14 +149,12 @@ export default {
             MoBan,
             SuCai,
             componentType,
-            previewCode,
             ZuJianList: [],
             systemMap,
             currentSystem: '',
             currentPage: '',
             templateId: new Date().getTime().toString(),
             dialogTableVisible: false,
-            dialogPreviewCodeVisible: false,
         }
 
     },
@@ -213,6 +208,16 @@ export default {
     methods: {
         goBack() {
             this.$router.go(-1);
+        },
+        // 导入模版文件
+        onImportJSON() {
+            this.$lib.importJSON((config => {
+                this.$store.dispatch("app/updateTemplateInfo", { ...config });
+            }));
+        },
+        // 导出模版文件
+        onExportJSON() {
+            this.$lib.exportJSON(JSON.stringify(this.templateInfo, undefined, 4), 'tab_life');
         },
         updateTemplateId() {
             const { templateId = '' } = this.$router.currentRoute.query;
@@ -328,18 +333,6 @@ export default {
                     margin: 0 10px 0 0;
                     font-size: 16px;
                 }
-            }
-        }
-    }
-
-    .dig-preCode {
-        .el-dialog__body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            img {
-                width: 60%;
             }
         }
     }

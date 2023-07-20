@@ -52,7 +52,8 @@
             <p class="date">{{ randomTime() }}</p>
             <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">使用</el-link><el-link
                 type="primary" @click="onTemplateEdit(item)">编辑</el-link><el-link type="primary"
-                @click="previewDialogVisible = true">预览</el-link>
+                @click="previewDialogVisible = true">预览</el-link><el-link type="primary"
+                @click="onExportJSON(item)">导出</el-link>
             </p>
           </el-row>
         </el-row>
@@ -134,6 +135,11 @@ export default {
     randomTime() {
       return `2023-0${Math.ceil(Math.random() * 9)}-0${Math.ceil(Math.random() * 9)}`;
     },
+    // 导出模版文件
+    onExportJSON(item = {}) {
+      const { templateName = '', templateContext = '{}' } = item;
+      this.$lib.exportJSON(templateContext, templateName);
+    },
     // 新增模版
     onTemplateAdd() {
       this.$router.push({
@@ -150,11 +156,11 @@ export default {
     // 模版应用至系统
     async onTemplateApply() {
       const { currentSystem = '', currentPage = '' } = this;
-      if(!currentSystem || !currentPage) {
+      if (!currentSystem || !currentPage) {
         this.$message({
-            message: '请先选择需要应用的系统和页面！',
-            type: 'error'
-          });
+          message: '请先选择需要应用的系统和页面！',
+          type: 'error'
+        });
         return;
       }
       this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId: currentPage })
