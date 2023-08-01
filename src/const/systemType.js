@@ -61,3 +61,23 @@ export const systemPagesMap = [{
     value: systemType.GYKD,
     pages: []
 }];
+
+
+// 用户角色
+export const userType = {
+    PLATFORM_ADMIN: 'lowCodeAdmin', // 平台管理员
+    CHANNEL_ADMIN: 'channelAdmin', // 渠道管理员
+    COMMON_USER: 'commonUser', // 普通用户,
+};
+
+// 用户角色映射
+export const userTypeMap = [{
+    value: systemType.PLATFORM_ADMIN,
+    name: '平台管理员'
+}, {
+    value: systemType.CHANNEL_ADMIN,
+    name: '渠道管理员'
+}, {
+    value: systemType.COMMON_USER,
+    name: '普通用户'
+}];

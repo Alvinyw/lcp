@@ -1,64 +1,36 @@
 <template>
   <el-container class="home-index" style="height: 100vh; border: 1px solid #eee">
-    <el-aside width="200px">
-      <el-menu :default-openeds="['1', '2']">
-        <el-menu-item index="1">
-          <i class="el-icon-menu"></i>
-          <span slot="title">概况</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <i class="el-icon-setting"></i>
-          <span slot="title">操作记录</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
-
-    <el-container>
-      <el-header style="text-align: left; font-size: 14px">
-        页面模版列表
-        <el-dropdown>
-          <span class="el-dropdown-link">
-            廖益文 - 渠道团队<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>设置</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-header>
-      <el-main class="tp-wrapper" v-loading="loading" element-loading-text="模版列表加载中"
-        element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)">
-
-        <el-row class="sys-tab">
-          <div class="item">
-            <span>选择系统：</span>
-            <el-select v-model="currentSystem" placeholder="请选择系统">
-              <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
-              </el-option>
-            </el-select>
-          </div>
-          <div class="item">
-            <span>选择页面：</span>
-            <el-select v-model="currentPage" placeholder="请选择页面">
-              <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
-              </el-option>
-            </el-select>
-          </div>
+    <el-main class="tp-wrapper" v-loading="loading" element-loading-text="模版列表加载中"
+      element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)">
+      <el-row class="sys-tab">
+        <div class="item">
+          <span>选择系统：</span>
+          <el-select v-model="currentSystem" placeholder="请选择系统">
+            <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="item">
+          <span>选择页面：</span>
+          <el-select v-model="currentPage" placeholder="请选择页面">
+            <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </el-row>
+      <div class="tp-add" @click="onTemplateAdd"><i class="el-icon-plus"></i></div>
+      <el-row v-for="(item, index) in templateList" :key="index" class="tp">
+        <el-row class="sec-btm">
+          <p class="name">{{ item.templateName }}</p>
+          <p class="date">{{ randomTime() }}</p>
+          <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">使用</el-link><el-link type="primary"
+              @click="onTemplateEdit(item)">编辑</el-link><el-link type="primary"
+              @click="previewDialogVisible = true">预览</el-link><el-link type="primary"
+              @click="onExportJSON(item)">导出</el-link>
+          </p>
         </el-row>
-        <div class="tp-add" @click="onTemplateAdd"><i class="el-icon-plus"></i></div>
-        <el-row v-for="(item, index) in templateList" :key="index" class="tp">
-          <el-row class="sec-btm">
-            <p class="name">{{ item.templateName }}</p>
-            <p class="date">{{ randomTime() }}</p>
-            <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">使用</el-link><el-link
-                type="primary" @click="onTemplateEdit(item)">编辑</el-link><el-link type="primary"
-                @click="previewDialogVisible = true">预览</el-link><el-link type="primary"
-                @click="onExportJSON(item)">导出</el-link>
-            </p>
-          </el-row>
-        </el-row>
-      </el-main>
-    </el-container>
+      </el-row>
+    </el-main>
     <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="applyDialogVisible">
       <el-row class="sys-tab">
         <div class="item">
@@ -92,7 +64,7 @@ import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 
 export default {
-  name: "HomeIndex",
+  name: "PageIndex",
   data() {
     return {
       templateList: [],
@@ -128,7 +100,7 @@ export default {
       const { data = {} } = res || {};
       this.$store.dispatch("user/updateUserInfo", data);
     });
-    await this.$api.app.lowCodeTemplateInfoListByPageId({})
+    await this.$api.app.templateInfoListByPageId({})
       .then(res => {
         const { list = [] } = res.data || {};
         this.templateList = list;
@@ -235,27 +207,8 @@ export default {
 </style>
 <style scoped lang="less">
 .home-index {
-  .el-header {
-    background-color: #fdfdfd;
-    line-height: 60px;
-    border-bottom: 1px solid #aaa;
-    box-shadow: #eee 5px 5px 8px 6px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .el-aside {
-    color: #aaa;
-    background-color: #fff;
-    border-right: solid 1px #aaa;
-
-    .el-menu {
-      border: none;
-    }
-  }
-
   .tp-wrapper {
-    padding: 0 20px 20px;
+    padding: 0 8px 15px;
 
     .sys-tab {
       padding: 20px 15px;

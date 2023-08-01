@@ -1,18 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import layout from '@/layout'
+import layout from '@/layout'
 
 Vue.use(Router)
 const router = new Router({
   // mode: 'history',
-  routes: [{
-      path: '/',
-      redirect: '/home',
-    },
+  routes: [
     {
-      path: '/home',
-      name: 'homeIndex',
-      component: () => import( /* webpackChunkName: "home" */ '@/views/home/index'),
+      path: '/',
+      component: layout,
+      redirect: '/page',
+      meta: {
+        name: '首页',
+        icon: ''
+      },
+      children: [{
+        path: '/page',
+        name: 'PageIndex',
+        component: () => import( /* webpackChunkName: "home" */ '@/views/page/index'),
+        meta: {
+          name: '页面模版'
+        },
+      },
+      {
+        path: '/user',
+        name: 'UserManageIndex',
+        component: () => import( /* webpackChunkName: "home" */ '@/views/user/index'),
+        meta: {
+          name: '用户管理'
+        },
+      },{
+        path: '/userAdd',
+        name: 'UserAdd',
+        component: () => import( /* webpackChunkName: "home" */ '@/views/user/add/index'),
+        meta: {
+          name: '用户新增'
+        },
+      }]
     },
 
     {
