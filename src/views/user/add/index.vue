@@ -10,8 +10,8 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="渠道权限" prop="channelAuth">
-                <el-select v-model="ruleForm.channelAuth" multiple placeholder="请选择">
+            <el-form-item label="渠道权限" prop="channelAuthArr">
+                <el-select v-model="ruleForm.channelAuthArr" multiple placeholder="请选择">
                     <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName"
                         :value="item.channelId">
                     </el-option>
@@ -40,7 +40,7 @@ export default {
             ruleForm: {
                 userName: '',
                 userType: '',
-                channelAuth: [],
+                channelAuthArr: [],
                 templateUseAuth: true,
                 remarks: '',
             },
@@ -51,7 +51,7 @@ export default {
                 userType: [
                     { required: true, message: '请选择用户角色', trigger: 'change' }
                 ],
-                channelAuth: [
+                channelAuthArr: [
                     { required: true, message: '请选择渠道权限', trigger: 'change' }
                 ],
             }

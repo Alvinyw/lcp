@@ -8,7 +8,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="角色">
-        <el-select v-model="queryParame.role" placeholder="请选择角色">
+        <el-select v-model="queryParame.userType" placeholder="请选择角色">
           <el-option v-for="item in userTypeMap" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
         </el-select>
@@ -22,6 +22,23 @@
         <el-button type="primary" @click="onAdd">新增</el-button>
       </el-form-item>
     </el-form>
+    <el-table :data="tableData" border style="width: 100%">
+      <el-table-column prop="userName" label="姓名">
+      </el-table-column>
+      <el-table-column prop="userType" label="角色">
+      </el-table-column>
+      <el-table-column prop="channelAuth" label="渠道权限">
+      </el-table-column>
+      <el-table-column prop="templateUseAuth" label="模版应用权限">
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间">
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 <script>
@@ -35,9 +52,11 @@ export default {
       userTypeMap,
       queryParame: {
         channel: '',
-        role: '',
+        userType: '',
         userName: ''
       },
+      tableData: [
+      ]
     }
   },
   computed: {
@@ -48,13 +67,23 @@ export default {
     }
   },
   mounted() {
-    
+    this.onQuery();
   },
   methods: {
-    onQuery() { },
-    onAdd() { 
+    onQuery() {
+      this.$api.app.userInfoTableSelectAll({
+      }).then(res => {
+        const { data = {} } = res || {};
+        const { list = [] } = data;
+        this.tableData = list;
+      });
+    },
+    onAdd() {
       this.$router.push({ name: 'UserAdd' })
     },
+    handleClick(row) {
+      console.log(row);
+    }
   }
 }
 </script>
