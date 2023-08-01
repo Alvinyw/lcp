@@ -1,6 +1,6 @@
 import axios from 'axios'
 // import md5 from 'js-md5';
-// import store from '../store'
+import store from '../store'
 // import {
 //   getYYMMDD,
 //   getUUID
@@ -27,9 +27,8 @@ service.interceptors.request.use(
     // const productCode = store.getters.productCode
     // const _time = new Date().getTime()
 
-    // config.headers['code'] = merchantCode
-    // config.headers['childMerchantCode'] = childMerchantCode
-    // config.headers['time'] = _time
+    const { token = '' } = store.getters.userInfo || {};
+    config.headers['authorization'] = token
     // config.headers['sign'] = md5(merchantCode + secret + _time).toString()
     // config.headers['requestNo'] = merchantCode + productCode + getYYMMDD().toString() + getUUID().toString()
     // config.headers['version'] = '1.0.0'

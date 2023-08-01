@@ -119,9 +119,16 @@ export default {
       return _res;
     },
   },
-  mounted() {
+  async mounted() {
     this.loading = true;
-    this.$api.app.perTemplateQryAll()
+    await this.$api.app.userLoginLowCode({
+      userId: "lowcode",
+      passWd: "88888888"
+    }).then(res => {
+      const { data = {} } = res || {};
+      this.$store.dispatch("user/updateUserInfo", data);
+    });
+    await this.$api.app.lowCodeTemplateInfoListByPageId({})
       .then(res => {
         const { list = [] } = res.data || {};
         this.templateList = list;

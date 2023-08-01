@@ -1,24 +1,12 @@
 import request from '@/utils/request'
 
 /**
- * 登录
- * @param { templateId } 模板编号
- */
- export function userLoginLowCode(data = {}) {
-  return request({
-    url: '/userLoginLowCode',
-    method: 'post',
-    data,
-  })
-}
-
-/**
  * 模版明细查询
- * @param { templateId } 模板编号
+ * @param { templateId } 参数1
  */
-export function lowCodeTemplateInfoTableSelectById(data = {}) {
+export function perTemplateQry(data = {}) {
   return request({
-    url: '/lowCodeTemplateInfoTableSelectById',
+    url: '/perTemplateQry.do',
     method: 'post',
     data,
   })
@@ -26,13 +14,10 @@ export function lowCodeTemplateInfoTableSelectById(data = {}) {
 
 /**
  * 查询所有模版
- * @param { pageId } 归属页面
- * @param { pageNo } 当前页面页码
- * @param { pageSize } 页面大小（单页面最大记录数）
  */
- export function lowCodeTemplateInfoListByPageId(data = {}) {
+ export function perTemplateQryAll(data = {}) {
   return request({
-    url: '/lowCodeTemplateInfoListByPageId',
+    url: '/perTemplateQryAll.do',
     method: 'post',
     data,
   })
@@ -40,16 +25,13 @@ export function lowCodeTemplateInfoTableSelectById(data = {}) {
 
 /**
  * 模版新增
- * @param { templateName } 模板名称
- * @param { channelId } 归属渠道
- * @param { moduleId } 归属模块
- * @param { pageId } 归属页面
- * @param { remark } 备注
- * @param { templateContext } 模板内容
+ * @param { templateId } 参数1
+ * @param { templateName } 参数1
+ * @param { templateContext } 参数1
  */
- export function lowCodeTemplateInfoTableInsert(data = {}) {
+ export function perTemplateAdd(data = {}) {
   return request({
-    url: '/lowCodeTemplateInfoTableInsert',
+    url: '/perTemplateAdd.do',
     method: 'post',
     data,
   })

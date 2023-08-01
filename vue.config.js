@@ -6,7 +6,7 @@ function resolve(dir) {
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
-  outputDir: 'vueElement',
+  // outputDir: 'vueElement',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
@@ -19,8 +19,9 @@ module.exports = {
     proxy: {
       '/api/': {
         // 此处并非和url一致
-        target: 'http://115.150.104.8:8091/pweb', // 内网
-        // target: 'http://sdcnwi.natappfree.cc', // 外网
+        // target: 'http://115.150.104.8:8091/pweb', // 内网
+        // target: 'http://ii5u5r.natappfree.cc', // 外网
+        target: 'http://10.28.103.61:8666/',
         changeOrigin: true, // 允许跨域
         ws: true,
         pathRewrite: {
