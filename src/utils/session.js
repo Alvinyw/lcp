@@ -1,23 +1,15 @@
-const Language = 'language'
-const productInfo = 'productInfo'
 
-// 当前语言
-export function getLanguage() {
-  return sessionStorage.getItem(Language)
-}
-export function setLanguage(lang) {
-  return sessionStorage.setItem(Language, lang)
-}
+const userInfo = 'userInfo'
 
 // 产品信息 logo， color
-export function getProductInfo() {
-  return sessionStorage.getItem(productInfo) ? JSON.parse(sessionStorage.getItem(productInfo)) : {}
+export function getUserInfo() {
+  return sessionStorage.getItem(userInfo) ? JSON.parse(sessionStorage.getItem(userInfo)) : {}
 }
-export function setProductInfo(val) {
-  return sessionStorage.setItem(productInfo, JSON.stringify(val))
+export function setUserInfo(val) {
+  return sessionStorage.setItem(userInfo, JSON.stringify(val))
 }
-export function removeProductInfo() {
-  sessionStorage.removeItem(productInfo)
+export function removeUserInfo() {
+  sessionStorage.removeItem(userInfo)
 }
 
 

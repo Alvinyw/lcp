@@ -1,3 +1,4 @@
+import { setUserInfo } from "../../utils/session";
 
 export default {
   namespaced: true,
@@ -7,6 +8,7 @@ export default {
   mutations: {
     UPDATE_USER_INFO(state, val) {
       state.userInfo = val
+      setUserInfo(val)
       console.log('=========userInfo=========', val);
     },
   },
