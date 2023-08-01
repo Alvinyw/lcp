@@ -72,12 +72,12 @@ export const userType = {
 
 // 用户角色映射
 export const userTypeMap = [{
-    value: systemType.PLATFORM_ADMIN,
+    value: userType.PLATFORM_ADMIN,
     name: '平台管理员'
 }, {
-    value: systemType.CHANNEL_ADMIN,
+    value: userType.CHANNEL_ADMIN,
     name: '渠道管理员'
 }, {
-    value: systemType.COMMON_USER,
+    value: userType.COMMON_USER,
     name: '普通用户'
 }];
