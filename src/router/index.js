@@ -17,7 +17,7 @@ const router = new Router({
       children: [{
         path: '/page',
         name: 'PageIndex',
-        component: () => import( /* webpackChunkName: "home" */ '@/views/page/index'),
+        component: () => import( /* webpackChunkName: "main" */ '@/views/page/index'),
         meta: {
           name: '页面模版'
         },
@@ -25,25 +25,32 @@ const router = new Router({
       {
         path: '/user',
         name: 'UserManageIndex',
-        component: () => import( /* webpackChunkName: "home" */ '@/views/user/index'),
+        component: () => import( /* webpackChunkName: "main" */ '@/views/user/index'),
         meta: {
           name: '用户管理'
         },
       },{
         path: '/userAdd',
         name: 'UserAdd',
-        component: () => import( /* webpackChunkName: "home" */ '@/views/user/add/index'),
+        component: () => import( /* webpackChunkName: "main" */ '@/views/user/add/index'),
         meta: {
           name: '用户新增'
         },
       },{
         path: '/userEdit',
         name: 'UserEdit',
-        component: () => import( /* webpackChunkName: "home" */ '@/views/user/edit/index'),
+        component: () => import( /* webpackChunkName: "main" */ '@/views/user/edit/index'),
         meta: {
           name: '用户信息更新'
         },
-      }]
+      },{
+        path: '/updatePsw',
+        name: 'UpdatePsw',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/updatePsw/index'),
+        meta: {
+          name: '修改密码'
+        },
+      },]
     },
 
     {

@@ -25,7 +25,7 @@
             {{ showName }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="1">用户中心</el-dropdown-item>
+            <el-dropdown-item command="1">修改密码</el-dropdown-item>
             <el-dropdown-item command="2">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -75,7 +75,7 @@ export default {
     handleCommand(command) {
       switch (Number(command)) {
         case 1:
-
+        this.$router.push({ name: 'UpdatePsw' })
           break;
         case 2:
           this.onLogOut();

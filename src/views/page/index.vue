@@ -95,7 +95,7 @@ export default {
     this.loading = true;
     await this.$api.app.userLoginLowCode({
       userId: "lowcode",
-      passWd: "88888888"
+      passWd: "Aa000000"
     }).then(res => {
       const { data = {} } = res || {};
       this.$store.dispatch("user/updateUserInfo", data);
