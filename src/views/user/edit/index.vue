@@ -1,5 +1,5 @@
 <template>
-    <div class="user-add">
+    <div class="user-edit">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="form-sec">
             <el-form-item label="用户名称" prop="userName">
                 <el-input v-model="ruleForm.userName"></el-input>
@@ -16,6 +16,9 @@
                         :value="item.channelId">
                     </el-option>
                 </el-select>
+            </el-form-item>
+            <el-form-item label="用户状态" prop="userStatus">
+                <el-switch v-model="ruleForm.userStatus"></el-switch>
             </el-form-item>
             <el-form-item label="模版应用权限" prop="templateUseAuth" :required="false">
                 <el-switch v-model="ruleForm.templateUseAuth"></el-switch>
@@ -36,13 +39,14 @@ import { mapGetters } from "vuex";
 import { userType, userTypeMap } from "@/const/systemType";
 
 export default {
-    name: "UserAdd",
+    name: "UserEdit",
     data() {
         return {
             ruleForm: {
                 userName: '',
                 userType: '',
                 channelAuthArr: [],
+                userStatus: true,
                 templateUseAuth: true,
                 remarks: '',
             },
@@ -82,14 +86,17 @@ export default {
             return channelList;
         }
     },
+    mounted() {
+        const { userInfo = {} } = this.$router.currentRoute.query;
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     console.log('=========this.ruleForm=========', this.ruleForm)
-                    this.$api.app.userInfoTableInsert(this.ruleForm).then(() => {
+                    this.$api.app.userInfoTableUpdateById(this.ruleForm).then(() => {
                         this.$message({
-                            message: '新增用户成功！',
+                            message: '更新用户信息成功！',
                             type: 'success'
                         });
                     });
@@ -103,7 +110,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.user-add {
+.user-edit {
     padding: 40px 15px;
 
     .form-sec {

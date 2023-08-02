@@ -82,7 +82,7 @@ export default {
       this.$router.push({ name: 'UserAdd' })
     },
     handleClick(row) {
-      console.log(row);
+      this.$router.push({ name: 'UserEdit', query: { userInfo: row }, })
     }
   }
 }

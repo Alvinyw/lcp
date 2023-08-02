@@ -2,10 +2,10 @@
     <el-container class="edit-index">
         <el-header class="sec-hd">
             <el-row class="lt"><el-button @click="goBack">返回</el-button></el-row>
-            <el-row class="rt"><el-button type="primary" @click="onTemplateSave">保存</el-button><el-button type="primary"
-                    @click="dialogTableVisible = true">应用</el-button><el-button type="primary"
-                    @click="onImportJSON">导入</el-button><el-button type="primary"
-                    @click="onExportJSON">导出</el-button></el-row>
+            <el-row class="rt"><el-button @click="onImportJSON">导入</el-button><el-button
+                    @click="onExportJSON">导出</el-button><el-button type="primary"
+                    @click="onTemplateSave">保存</el-button><el-button type="primary"
+                    @click="dialogTableVisible = true">应用</el-button></el-row>
         </el-header>
         <el-main class="sec-main">
             <el-row class="lt">

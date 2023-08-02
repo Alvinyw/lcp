@@ -36,6 +36,13 @@ const router = new Router({
         meta: {
           name: '用户新增'
         },
+      },{
+        path: '/userEdit',
+        name: 'UserEdit',
+        component: () => import( /* webpackChunkName: "home" */ '@/views/user/edit/index'),
+        meta: {
+          name: '用户信息更新'
+        },
       }]
     },
 
