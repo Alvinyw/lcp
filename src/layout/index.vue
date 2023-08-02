@@ -18,8 +18,8 @@
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: left; font-size: 14px">
-        {{ pageName }}
+      <el-header>
+        <span class="page-name">{{ pageName }}</span>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             {{ showName }}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -97,6 +97,11 @@ export default {
     box-shadow: #eee 5px 5px 8px 6px;
     display: flex;
     justify-content: space-between;
+
+    .page-name {
+
+      font-size: 16px;
+    }
   }
 
   .el-aside {

@@ -4,8 +4,8 @@ export function isObjEqual(a, b) {
 }
 
 // 获取格式为 yyyyMMdd 的日期
-export function getYYMMDD() {
-  var date = new Date();
+export function getYYMMDD(d = new Date()) {
+  var date = new Date(d);
   //var seperator1 = "-";
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
@@ -16,7 +16,7 @@ export function getYYMMDD() {
   if (strDate >= 0 && strDate <= 9) {
     strDate = "0" + strDate;
   }
-  var currentdate = year + '' + month + strDate;
+  var currentdate = year + '-' + month + '-' + strDate;
   return currentdate;
 }
 

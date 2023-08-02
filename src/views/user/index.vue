@@ -26,12 +26,21 @@
       <el-table-column prop="userName" label="姓名">
       </el-table-column>
       <el-table-column prop="userType" label="角色">
+        <template slot-scope="scope">
+          {{ scope.row.userType ? userTypeMap.filter(i => i.value == scope.row.userType)[0].name : '--'  }}
+        </template>
       </el-table-column>
-      <el-table-column prop="channelAuth" label="渠道权限">
+      <el-table-column prop="channelAuthArr" label="渠道权限">
+        <template slot-scope="scope">
+          {{ formateChannelStr(scope.row.channelAuthArr) }}
+        </template>
       </el-table-column>
       <el-table-column prop="templateUseAuth" label="模版应用权限">
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间">
+        <template slot-scope="scope">
+          {{ $lib.getYYMMDD(scope.row.createTime) }}
+        </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -56,7 +65,8 @@ export default {
         userName: ''
       },
       tableData: [
-      ]
+      ],
+      chanMap: {}
     }
   },
   computed: {
@@ -74,15 +84,23 @@ export default {
       this.$api.app.userInfoTableSelectAll({
       }).then(res => {
         const { data = {} } = res || {};
-        const { list = [] } = data;
+        const { list = [], map = {} } = data;
         this.tableData = list;
+        this.chanMap = map;
       });
+    },
+    formateChannelStr(authAry = []) {
+      let res = '';
+      authAry.forEach(i => {
+        res += this.chanMap[i] + ','
+      });
+      return res;
     },
     onAdd() {
       this.$router.push({ name: 'UserAdd' })
     },
     handleClick(row) {
-      this.$router.push({ name: 'UserEdit', query: { userInfo: row }, })
+      this.$router.push({ name: 'UserEdit', query: { userInfo: JSON.stringify(row) }, })
     }
   }
 }
