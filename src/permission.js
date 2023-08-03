@@ -30,7 +30,9 @@ router.beforeEach(async (to, from, next) => {
 
   const userInfo = getUserInfo();
 
-  if (!userInfo) {
+  const { token = '' } = userInfo || {};
+
+  if (!token) {
     next({ name: 'Login' })
     NProgress.done()
     return

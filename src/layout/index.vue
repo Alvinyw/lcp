@@ -12,14 +12,14 @@
             <span>团队管理</span>
           </template>
           <el-menu-item index="2-1" @click="goToPage('ChannelManage')">渠道管理</el-menu-item>
-          <el-menu-item index="2-2">系统管理</el-menu-item>
-          <el-menu-item index="2-3">页面管理</el-menu-item>
+          <el-menu-item index="2-2" @click="goToPage('SystemManage')">系统管理</el-menu-item>
+          <el-menu-item index="2-3" @click="goToPage('PageManage')">页面管理</el-menu-item>
         </el-submenu>
         <el-menu-item index="3" @click="goToPage('UserManageIndex')">
           <i class="el-icon-user"></i>
           <span slot="title">用户管理</span>
         </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="4" @click="goToPage('OperationRecord')">
           <i class="el-icon-setting"></i>
           <span slot="title">操作记录</span>
         </el-menu-item>

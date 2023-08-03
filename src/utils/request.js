@@ -1,6 +1,10 @@
 import axios from 'axios'
 // import md5 from 'js-md5';
+import {
+  Message
+} from 'element-ui'
 import store from '../store'
+import router from '@/router'
 // import {
 //   getYYMMDD,
 //   getUUID
@@ -55,6 +59,16 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
+    if (res.code == "ERR014") {
+      Message({
+        message: '登录失效，请重新登录！',
+        type: 'warning'
+      });
+      router.push({
+        name: "Login"
+      });
+      return;
+    }
     if (res.code !== "success") {
       // if the custom code is not 20000, it is judged as an error.
       return Promise.reject(new Error(res.message || 'Error'))

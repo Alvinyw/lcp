@@ -28,6 +28,14 @@ const router = new Router({
         },
       },
       {
+        path: '/OperationRecord',
+        name: 'OperationRecord',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/operationRecord/index'),
+        meta: {
+          name: '操作记录查询'
+        },
+      },
+      {
         path: '/user',
         name: 'UserManageIndex',
         component: () => import( /* webpackChunkName: "main" */ '@/views/user/index'),
