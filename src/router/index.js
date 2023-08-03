@@ -15,9 +15,9 @@ const router = new Router({
         icon: ''
       },
       children: [{
-        path: '/page',
-        name: 'PageIndex',
-        component: () => import( /* webpackChunkName: "main" */ '@/views/page/index'),
+        path: '/template',
+        name: 'TemplateIndex',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/template/index'),
         meta: {
           name: '页面模版'
         },
@@ -49,6 +49,30 @@ const router = new Router({
         component: () => import( /* webpackChunkName: "main" */ '@/views/updatePsw/index'),
         meta: {
           name: '修改密码'
+        },
+      },
+      {
+        path: '/channel',
+        name: 'ChannelManage',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/channel/index'),
+        meta: {
+          name: '渠道管理'
+        },
+      },
+      {
+        path: '/channelAdd',
+        name: 'ChannelAdd',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/channel/add/index'),
+        meta: {
+          name: '渠道新增'
+        },
+      },
+      {
+        path: '/channelEdit',
+        name: 'ChannelEdit',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/channel/edit/index'),
+        meta: {
+          name: '渠道编辑'
         },
       },]
     },

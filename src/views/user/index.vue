@@ -1,21 +1,23 @@
 <template>
   <div class="user-manage">
     <el-form :inline="true" :model="queryParame" class="demo-form-inline">
-      <el-form-item label="渠道">
-        <el-select v-model="queryParame.channel" placeholder="请选择渠道">
-          <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName" :value="item.channelId">
-          </el-option>
-        </el-select>
+      <el-form-item label="用户名">
+        <el-input placeholder="请输入用户名" v-model="queryParame.userName" clearable>
+        </el-input>
       </el-form-item>
       <el-form-item label="角色">
-        <el-select v-model="queryParame.userType" placeholder="请选择角色">
+        <el-select v-model="queryParame.userType" clearable placeholder="请选择角色">
           <el-option v-for="item in userTypeMap" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="用户名">
-        <el-input placeholder="请输入用户名" v-model="queryParame.userName" clearable>
-        </el-input>
+      <el-form-item label="状态">
+        <el-select v-model="queryParame.userStatus" clearable placeholder="请选择状态">
+          <el-option label="启用" :value="true">
+          </el-option>
+          <el-option label="停用" :value="false">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onQuery">查询</el-button>
@@ -27,7 +29,7 @@
       </el-table-column>
       <el-table-column prop="userType" label="角色">
         <template slot-scope="scope">
-          {{ scope.row.userType ? userTypeMap.filter(i => i.value == scope.row.userType)[0].name : '--'  }}
+          {{ scope.row.userType ? userTypeMap.filter(i => i.value == scope.row.userType)[0].name : '--' }}
         </template>
       </el-table-column>
       <el-table-column prop="channelAuthArr" label="渠道权限">
@@ -60,9 +62,9 @@ export default {
     return {
       userTypeMap,
       queryParame: {
-        channel: '',
-        userType: '',
-        userName: ''
+        userType: null,
+        userName: null,
+        userStatus: null,
       },
       tableData: [
       ],
@@ -81,8 +83,9 @@ export default {
   },
   methods: {
     onQuery() {
-      this.$api.app.userInfoTableSelectAll({
-      }).then(res => {
+      this.$api.app.userInfoTableSelectAll(
+        this.queryParame
+      ).then(res => {
         const { data = {} } = res || {};
         const { list = [], map = {} } = data;
         this.tableData = list;

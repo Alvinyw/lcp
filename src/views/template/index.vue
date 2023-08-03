@@ -64,7 +64,7 @@ import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 
 export default {
-  name: "PageIndex",
+  name: "TemplateIndex",
   data() {
     return {
       templateList: [],

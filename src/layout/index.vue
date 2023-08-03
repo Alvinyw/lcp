@@ -1,16 +1,25 @@
 <template>
   <el-container class="page-layout" style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px">
-      <el-menu :default-openeds="['1', '2']">
-        <el-menu-item index="1" @click="goToPage('PageIndex')">
+      <el-menu :default-openeds="['1']">
+        <el-menu-item index="1" @click="goToPage('TemplateIndex')">
           <i class="el-icon-menu"></i>
           <span slot="title">页面模版</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="goToPage('UserManageIndex')">
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-star-off"></i>
+            <span>团队管理</span>
+          </template>
+          <el-menu-item index="2-1" @click="goToPage('ChannelManage')">渠道管理</el-menu-item>
+          <el-menu-item index="2-2">系统管理</el-menu-item>
+          <el-menu-item index="2-3">页面管理</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="3" @click="goToPage('UserManageIndex')">
           <i class="el-icon-user"></i>
           <span slot="title">用户管理</span>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item index="4">
           <i class="el-icon-setting"></i>
           <span slot="title">操作记录</span>
         </el-menu-item>
@@ -75,7 +84,7 @@ export default {
     handleCommand(command) {
       switch (Number(command)) {
         case 1:
-        this.$router.push({ name: 'UpdatePsw' })
+          this.$router.push({ name: 'UpdatePsw' })
           break;
         case 2:
           this.onLogOut();
