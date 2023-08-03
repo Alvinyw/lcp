@@ -7,6 +7,16 @@ const router = new Router({
   // mode: 'history',
   routes: [
     {
+      path:'/login',
+      name:'login',
+      component: ()=> import(/*webpackChunkName: "login*/ '@/views/login/index'),
+    },
+    {
+      path:'/test',
+      name:'test',
+      component:()=>import('@/views/test/index')
+    },
+    {
       path: '/',
       component: layout,
       redirect: '/page',
@@ -156,6 +166,12 @@ const router = new Router({
       path: '/default',
       name: 'defaultIndex',
       component: () => import( /* webpackChunkName: "home" */ '@/views/default'),
+    },
+    //操作记录
+    {
+      path:'/operationRecord',
+      name:'operationRecord',
+      component: ()=> import(/*webpackChunkName: "operationRecord"*/ '@/views/operationRecord/index'),
     },
     {
       path: '/404',

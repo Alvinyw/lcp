@@ -24,6 +24,8 @@ export const componentType = {
     // 系统组件
     HEADER_NAV: 30, // 顶部导航
     FOOTER_NAV: 31, // 底部导航
+    //生活页素材,便民服务 Convenience service
+    CONVENIENCE_SERVICE:32,
 };
 
 export const componentTypeMap = [
@@ -92,6 +94,12 @@ export const componentTypeMap = [
         icon: 'el-icon-picture',
         name: '网点',
     },
+    //生活页面素材-便民服务-CONVENIENCE_SERVICE
+    {
+        value:componentType.CONVENIENCE_SERVICE,
+        icon:'el-icon-lock',
+        name:'便民服务'
+    }
 ];
 
 export const componentProperty = [
@@ -237,4 +245,49 @@ export const componentProperty = [
             ],
         },
     },
+    //生活页面素材-便民服务-CONVENIENCE_SERVICE
+    {
+        value:componentType.CONVENIENCE_SERVICE,
+        property:{
+            bgColor:'#fff',
+            borderRadius:'12',
+            padding:'20',
+            imgHeight:'20',
+            imgWidth:'20',
+            imgMarginRight:'10',
+            adTitleColor:'#000',
+            adTitleFontSize:'20',
+            adTitleFontWeight:'500',
+            adTitleMarginBottom:'10',
+            adContentColor:'#000',
+            adContentFontSize:'15',
+            adContentFontWeight:'400',
+            items:[
+                {
+                    adTitle:'社保缴费',
+                    adContent:'查缴无忧',
+                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link:''
+                },
+                {   
+                    adTitle:'公积金',
+                    adContent:'查余额明细',
+                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link:''
+                },
+                {   
+                    adTitle:'非税代缴',
+                    adContent:'一健查缴',
+                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link:''
+                },
+                {   
+                    adTitle:'电子社保卡',
+                    adContent:'在线申领',
+                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link:''
+                }
+            ]
+        }
+    }
 ]

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getToken} from './cookies'
 // import md5 from 'js-md5';
 import store from '../store'
 // import {
@@ -32,6 +33,11 @@ service.interceptors.request.use(
     // config.headers['sign'] = md5(merchantCode + secret + _time).toString()
     // config.headers['requestNo'] = merchantCode + productCode + getYYMMDD().toString() + getUUID().toString()
     // config.headers['version'] = '1.0.0'
+    let token = getToken();
+    if(token){
+      config.headers.Authorization = token;
+    }
+    config.headers['content-type'] = 'application/json;charset=UTF-8'
     return config
   },
   error => {

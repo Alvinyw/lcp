@@ -6,6 +6,7 @@ import Img from "../components/md/img";
 import PureText from "../components/md/pure-text";
 import TextNav from "../components/md/text-nav";
 import Margin from "../components/md/margin";
+import ConvenienceService from "../components/md/convenience-service"
 
 // 右侧编辑区
 import HeaderNav from "../components/rt/header-nav";
@@ -16,6 +17,7 @@ import Img_rt from "../components/rt/img";
 import PureText_rt from "../components/rt/pure-text";
 import TextNav_rt from "../components/rt/text-nav";
 import Margin_rt from "../components/rt/margin";
+import ConvenienceService_rt from "../components/rt/convenience-service"
 
 export const mdComponentBaseMap = {
     [componentType.QUICK_ENTER]: QuickEnter,
@@ -24,6 +26,7 @@ export const mdComponentBaseMap = {
     [componentType.PURE_TEXT]: PureText,
     [componentType.TEXT_NAV]: TextNav,
     [componentType.MARGIN]: Margin,
+    [componentType.CONVENIENCE_SERVICE]:ConvenienceService,
 }
 
 // 中间预览区的组件映射
@@ -43,6 +46,7 @@ export const rtComponentBaseMap = {
     [componentType.PURE_TEXT]: PureText_rt,
     [componentType.TEXT_NAV]: TextNav_rt,
     [componentType.MARGIN]: Margin_rt,
+    [componentType.CONVENIENCE_SERVICE]:ConvenienceService_rt,
 }
 export function mapToRtComponents(val = componentType.HEADER_NAV) {
     return rtComponentBaseMap[val];

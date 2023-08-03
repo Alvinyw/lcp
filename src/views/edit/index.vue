@@ -114,6 +114,7 @@ const ZuJian = [
             componentType.IMG,
             componentType.QUICK_ENTER,
             componentType.MARGIN,
+            componentType.CONVENIENCE_SERVICE
         ]
     },
     {
