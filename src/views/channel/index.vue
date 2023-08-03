@@ -1,7 +1,7 @@
 <template>
     <div class="channel-manage">
         <p class="tl">渠道列表</p>
-        <el-table :data="channelMap" border style="width: 100%">
+        <el-table :data="tableData" border style="width: 100%">
             <el-table-column prop="channelId" label="渠道ID">
             </el-table-column>
             <el-table-column prop="channelName" label="渠道名称">
@@ -28,24 +28,13 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import { userTypeMap } from "@/const/systemType";
 
 export default {
     name: "ChannelManage",
     data() {
         return {
-            userTypeMap,
             tableData: [
             ],
-            chanMap: {}
-        }
-    },
-    computed: {
-        ...mapGetters(["userInfo"]),
-        channelMap() {
-            const { channelList = [] } = this.userInfo || {};
-            return channelList;
         }
     },
     mounted() {
@@ -53,12 +42,16 @@ export default {
     },
     methods: {
         onQuery() {
-            this.$api.app.userInfoTableSelectAll({
+            this.$api.app.channelInfoTableSelectList({
             }).then(res => {
                 const { data = {} } = res || {};
-                const { list = [], map = {} } = data;
+                const { list = [] } = data;
                 this.tableData = list;
-                this.chanMap = map;
+            }).catch(err => {
+                this.$message({
+                    message: err,
+                    type: 'error'
+                });
             });
         },
         onAdd() {
@@ -73,11 +66,13 @@ export default {
 <style lang="scss" scoped>
 .channel-manage {
     padding: 15px;
+
     .tl {
         font-size: 16px;
         font-weight: bold;
         margin: 0 0 10px;
     }
+
     .btm-sec {
         padding: 15px 0 0;
         text-align: center;

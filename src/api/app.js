@@ -89,6 +89,19 @@ import request from '@/utils/request'
 }
 
 /**
+ * 查询渠道列表
+ * @param { pageNo } 当前页面页码
+ * @param { pageSize } 页面大小（单页面最大记录数）
+ */
+ export function channelInfoTableSelectList(data = {}) {
+  return request({
+    url: '/lowCodeChannelInfoTableSelectList',
+    method: 'post',
+    data,
+  })
+}
+
+/**
  * 新增渠道
  * @param { channelName } 渠道名称（如：电子渠道、新网贷等）
  * @param { remarks } 备注
@@ -111,6 +124,20 @@ import request from '@/utils/request'
  export function channelInfoTableUpdateById(data = {}) {
   return request({
     url: '/lowCodeChannelInfoTableUpdateById',
+    method: 'post',
+    data,
+  })
+}
+
+/**
+ * 查询模块列表
+ * @param { channelId } 归属渠道
+ * @param { pageNo } 当前页面页码
+ * @param { pageSize } 页面大小（单页面最大记录数）
+ */
+ export function moduleInfoTableSelectList(data = {}) {
+  return request({
+    url: '/lowCodeModuleInfoTableSelectList',
     method: 'post',
     data,
   })
