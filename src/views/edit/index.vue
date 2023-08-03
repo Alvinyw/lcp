@@ -37,8 +37,8 @@
                     </el-row>
                     <el-row v-else class="moBan">
                         <div v-for="(item, index) in MoBan" :key="index" class="item">
-                            <img :src="item" />
-                            <span>618活动首页模版</span>
+                            <img :src="item.src" />
+                            <span>{{ item.name }}</span>
                         </div>
                     </el-row>
                 </el-row>
@@ -78,8 +78,6 @@ import { componentType, componentTypeMap, componentProperty } from "@/const/comp
 import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 // 模版
 import img_moban_1 from '@/assets/images/img_moban_1.jpg';
-import img_moban_2 from '@/assets/images/img_moban_2.jpg';
-import img_moban_3 from '@/assets/images/img_moban_3.jpg';
 import img_moban_4 from '@/assets/images/img_moban_4.png';
 import img_moban_5 from '@/assets/images/img_moban_5.jpg';
 // 素材
@@ -136,7 +134,7 @@ const ZuJian = [
 ];
 const SuCai = [img_sucai_5, img_sucai_1, img_sucai_2, img_sucai_3, img_sucai_4];
 const MoBan = [
-    img_moban_1, img_moban_5, img_moban_2, img_moban_4, img_moban_3
+    { src: img_moban_1, name: '首页模版' }, { src: img_moban_5, name: '我的页面模版' }, { src: img_moban_4, name: '生活页面模版' }
 ];
 export default {
     name: "EditIndex",
