@@ -1,6 +1,13 @@
 <template>
     <div class="system-manage">
-        <p class="tl">渠道列表</p>
+        <el-form :inline="true" :model="queryParame" class="demo-form-inline">
+            <el-form-item label="渠道">
+                <el-select v-model="queryParame.channelId" clearable placeholder="请选择渠道" @change="onChannelChange">
+                    <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName" :value="item.channelId">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column prop="channelId" label="渠道ID">
             </el-table-column>
@@ -33,17 +40,28 @@ export default {
     name: "SystemManage",
     data() {
         return {
+            queryParame: {
+                channelId: '',
+            },
             tableData: [
             ],
+            channelMap: []
         }
     },
     mounted() {
-        this.onQuery();
+        this.$api.app.channelInfoTableSelectList().then(res => {
+            const { data = {} } = res || {};
+            const { list = [] } = data;
+            this.channelMap = list;
+        });
     },
     methods: {
+        onChannelChange(val) {
+            this.queryParame.channelId = val;
+            this.onQuery();
+        },
         onQuery() {
-            this.$api.app.channelInfoTableSelectList({
-            }).then(res => {
+            this.$api.app.moduleInfoTableSelectList(this.queryParame).then(res => {
                 const { data = {} } = res || {};
                 const { list = [] } = data;
                 this.tableData = list;

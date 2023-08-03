@@ -42,8 +42,7 @@ export default {
     },
     methods: {
         onQuery() {
-            this.$api.app.channelInfoTableSelectList({
-            }).then(res => {
+            this.$api.app.channelInfoTableSelectList().then(res => {
                 const { data = {} } = res || {};
                 const { list = [] } = data;
                 this.tableData = list;
