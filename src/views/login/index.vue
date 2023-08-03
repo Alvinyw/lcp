@@ -1,34 +1,16 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" label-position="left">
       <div class="title-container">
         <h3 class="title">登录</h3>
       </div>
       <el-form-item prop="userId">
-        <el-input
-          prefix-icon="el-icon-user"
-          ref="userId"
-          v-model="loginForm.userId"
-          placeholder="账号"
-          name="userId"
-          type="text"
-        ></el-input>
+        <el-input prefix-icon="el-icon-user" ref="userId" v-model="loginForm.userId" placeholder="账号" name="userId"
+          type="text"></el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          prefix-icon="el-icon-lock"
-          ref="password"
-          v-model="loginForm.password"
-          placeholder="密码"
-          name="password"
-          type="password"
-        ></el-input>
+        <el-input prefix-icon="el-icon-lock" ref="password" v-model="loginForm.password" placeholder="密码" name="password"
+          type="password"></el-input>
       </el-form-item>
       <div class="submit-container">
         <el-button :loading="loading" class="submit" type="primary" @click="doLogin">登录</el-button>
@@ -37,7 +19,7 @@
   </div>
 </template>
 <script>
-import {setToken} from '../../utils/cookies'
+import { setToken } from '../../utils/cookies'
 export default {
   name: "login",
   data() {
@@ -81,14 +63,16 @@ export default {
         if (valid) {
           this.loading = true;
           let params = {
-            userId:this.loginForm.userId,
-            passWd:this.loginForm.password
+            userId: this.loginForm.userId,
+            passWd: this.loginForm.password
           }
           this.$api.user
             .login(params)
             .then((res) => {
               if (res != null) {
                 setToken(res.data.token);
+                const { data = {} } = res || {};
+                this.$store.dispatch("user/updateUserInfo", data);
                 this.$router.push({ path: "/" });
                 this.loading = false;
               }
@@ -110,18 +94,22 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  .login-form{
+
+  .login-form {
     height: 300px;
     width: 400px;
-    .title-container{
-        text-align: center;
+
+    .title-container {
+      text-align: center;
     }
-    .submit-container{
-        display: flex;
-        justify-content: center;
-        .submit{
-            width: 100%;
-        }
+
+    .submit-container {
+      display: flex;
+      justify-content: center;
+
+      .submit {
+        width: 100%;
+      }
     }
   }
 }

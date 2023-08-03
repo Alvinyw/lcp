@@ -8,18 +8,13 @@ const router = new Router({
   routes: [
     {
       path:'/login',
-      name:'login',
+      name:'Login',
       component: ()=> import(/*webpackChunkName: "login*/ '@/views/login/index'),
-    },
-    {
-      path:'/test',
-      name:'test',
-      component:()=>import('@/views/test/index')
     },
     {
       path: '/',
       component: layout,
-      redirect: '/page',
+      redirect: '/template',
       meta: {
         name: '首页',
         icon: ''
@@ -166,12 +161,6 @@ const router = new Router({
       path: '/default',
       name: 'defaultIndex',
       component: () => import( /* webpackChunkName: "home" */ '@/views/default'),
-    },
-    //操作记录
-    {
-      path:'/operationRecord',
-      name:'operationRecord',
-      component: ()=> import(/*webpackChunkName: "operationRecord"*/ '@/views/operationRecord/index'),
     },
     {
       path: '/404',

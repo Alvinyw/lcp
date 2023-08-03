@@ -14,7 +14,7 @@ const setThemeColor = function (color) {
 }
 
 const WHITE_LIST = [
-  '404',
+  'Login'
 ]
 
 router.beforeEach(async (to, from, next) => {
@@ -31,7 +31,7 @@ router.beforeEach(async (to, from, next) => {
   const userInfo = getUserInfo();
 
   if (!userInfo) {
-    next({ name: '404' })
+    next({ name: 'Login' })
     NProgress.done()
     return
   }

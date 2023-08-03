@@ -75,6 +75,7 @@ export default {
     },
     onLogOut() {
       this.$api.app.userLoginOutLowCode().then(() => {
+        this.$router.push({ name: 'Login' })
         this.$message({
           message: '退出登录！',
           type: 'success'
