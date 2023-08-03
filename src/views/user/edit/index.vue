@@ -50,7 +50,6 @@ export default {
                 templateUseAuth: true,
                 remarks: '',
             },
-            defaultInfo: {},
             rules: {
                 userName: [
                     { required: true, message: '请输入用户名称', trigger: 'blur' },
@@ -94,7 +93,6 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log('=========this.userInfoForm=========', this.userInfoForm)
                     this.$api.app.userInfoTableUpdateById(this.userInfoForm).then(() => {
                         this.$message({
                             message: '更新用户信息成功！',

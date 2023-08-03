@@ -58,7 +58,7 @@ export default {
             this.$router.push({ name: 'ChannelAdd' })
         },
         onEdit(row) {
-            this.$router.push({ name: 'ChannelEdit', query: { userInfo: JSON.stringify(row) }, })
+            this.$router.push({ name: 'ChannelEdit', query: { channelInfo: JSON.stringify(row) }, })
         }
     }
 }
