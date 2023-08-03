@@ -74,7 +74,55 @@ const router = new Router({
         meta: {
           name: '渠道编辑'
         },
-      },]
+      },
+      {
+        path: '/system',
+        name: 'SystemManage',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/system/index'),
+        meta: {
+          name: '系统管理'
+        },
+      },
+      {
+        path: '/systemAdd',
+        name: 'SystemAdd',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/system/add/index'),
+        meta: {
+          name: '系统新增'
+        },
+      },
+      {
+        path: '/systemEdit',
+        name: 'SystemEdit',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/system/edit/index'),
+        meta: {
+          name: '系统编辑'
+        },
+      },
+      {
+        path: '/page',
+        name: 'PageManage',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/page/index'),
+        meta: {
+          name: '页面管理'
+        },
+      },
+      {
+        path: '/pageAdd',
+        name: 'PageAdd',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/page/add/index'),
+        meta: {
+          name: '页面新增'
+        },
+      },
+      {
+        path: '/pageEdit',
+        name: 'PageEdit',
+        component: () => import( /* webpackChunkName: "main" */ '@/views/page/edit/index'),
+        meta: {
+          name: '页面编辑'
+        },
+      }]
     },
 
     {
