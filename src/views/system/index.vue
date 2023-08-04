@@ -9,11 +9,14 @@
             </el-form-item>
         </el-form>
         <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="channelId" label="渠道ID">
+            <el-table-column prop="moduleName" label="系统名称">
             </el-table-column>
-            <el-table-column prop="channelName" label="渠道名称">
+            <el-table-column prop="channelId" label="所属渠道">
+                <template slot-scope="scope">
+                    {{ filterChannelName(scope.row.channelId) }}
+                </template>
             </el-table-column>
-            <el-table-column prop="channelStatus" label="渠道状态">
+            <el-table-column prop="moduleStatus" label="系统状态">
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间">
                 <template slot-scope="scope">
@@ -54,9 +57,13 @@ export default {
             const { list = [] } = data;
             this.channelMap = list;
         });
+        this.onQuery();
     },
     methods: {
-        onChannelChange(val) {
+        filterChannelName(id = ''){
+            return this.channelMap.filter(i => i.channelId == id)[0].channelName;
+        },
+        onChannelChange(val = '') {
             this.queryParame.channelId = val;
             this.onQuery();
         },

@@ -1,8 +1,15 @@
 <template>
     <div class="system-add">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="form-sec">
-            <el-form-item label="渠道名称" prop="channelName">
-                <el-input v-model="ruleForm.channelName"></el-input>
+            <el-form-item label="渠道" prop="channelId">
+                <el-select v-model="ruleForm.channelId" clearable placeholder="请选择渠道">
+                    <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName"
+                        :value="item.channelId">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="模块名称" prop="moduleName">
+                <el-input v-model="ruleForm.moduleName"></el-input>
             </el-form-item>
             <el-form-item label="备注" prop="remarks">
                 <el-input type="textarea" v-model="ruleForm.remarks"></el-input>
@@ -21,24 +28,36 @@ export default {
     name: "SystemAdd",
     data() {
         return {
+            channelMap: [],
             ruleForm: {
-                channelName: '',
+                channelId: '',
+                moduleName: '',
                 remarks: '',
             },
             rules: {
-                channelName: [
+                channelId: [
+                    { required: true, message: '请选择渠道', trigger: 'change' },
+                ],
+                moduleName: [
                     { required: true, message: '请输入页面名称', trigger: 'blur' },
                 ],
             }
         };
     },
+    mounted() {
+        this.$api.app.channelInfoTableSelectList().then(res => {
+            const { data = {} } = res || {};
+            const { list = [] } = data;
+            this.channelMap = list;
+        });
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$api.app.channelInfoTableInsert(this.ruleForm).then(() => {
+                    this.$api.app.moduleInfoTableInsert(this.ruleForm).then(() => {
                         this.$message({
-                            message: '新增渠道成功！',
+                            message: '新增系统成功！',
                             type: 'success'
                         });
                     }).catch(err => {
