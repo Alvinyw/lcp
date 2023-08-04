@@ -1,11 +1,18 @@
 <template>
     <div class="system-edit">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="form-sec">
-            <el-form-item label="渠道名称" prop="channelName">
-                <el-input v-model="ruleForm.channelName"></el-input>
+            <el-form-item label="渠道" prop="channelId">
+                <el-select v-model="ruleForm.channelId" clearable placeholder="请选择渠道" disabled>
+                    <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName"
+                        :value="item.channelId">
+                    </el-option>
+                </el-select>
             </el-form-item>
-            <el-form-item label="渠道状态" prop="channelStatus">
-                <el-switch v-model="ruleForm.channelStatus"></el-switch>
+            <el-form-item label="系统名称" prop="moduleName">
+                <el-input v-model="ruleForm.moduleName"></el-input>
+            </el-form-item>
+            <el-form-item label="系统状态" prop="moduleStatus">
+                <el-switch v-model="ruleForm.moduleStatus"></el-switch>
             </el-form-item>
             <el-form-item label="备注" prop="remarks">
                 <el-input type="textarea" v-model="ruleForm.remarks"></el-input>
@@ -24,28 +31,34 @@ export default {
     name: "SystemEdit",
     data() {
         return {
+            channelMap: [],
             ruleForm: {
-                channelName: '',
-                channelStatus: true,
+                moduleName: '',
+                moduleStatus: true,
                 remarks: '',
             },
             rules: {
-                channelName: [
-                    { required: true, message: '请输入渠道名称', trigger: 'blur' },
+                moduleName: [
+                    { required: true, message: '请输入系统名称', trigger: 'blur' },
                 ],
             }
         };
     },
     mounted() {
+        this.$api.app.channelInfoTableSelectList().then(res => {
+            const { data = {} } = res || {};
+            const { list = [] } = data;
+            this.channelMap = list;
+        });
         this.resetForm();
     },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$api.app.channelInfoTableUpdateById(this.ruleForm).then(() => {
+                    this.$api.app.moduleInfoTableUpdateById(this.ruleForm).then(() => {
                         this.$message({
-                            message: '更新页面信息成功！',
+                            message: '更新系统信息成功！',
                             type: 'success'
                         });
                     });
@@ -53,9 +66,9 @@ export default {
             });
         },
         resetForm() {
-            const { pageInfo = '{}' } = this.$router.currentRoute.query;
-            const { channelStatus = '' } = JSON.parse(pageInfo);
-            this.ruleForm = { ...this.ruleForm, ...JSON.parse(pageInfo), channelStatus: !!channelStatus }
+            const { systemInfo = '{}' } = this.$router.currentRoute.query;
+            const { moduleStatus = '' } = JSON.parse(systemInfo);
+            this.ruleForm = { ...this.ruleForm, ...JSON.parse(systemInfo), moduleStatus: !!moduleStatus }
         }
     }
 }

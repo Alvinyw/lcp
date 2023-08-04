@@ -83,7 +83,7 @@ export default {
             this.$router.push({ name: 'SystemAdd' })
         },
         onEdit(row) {
-            this.$router.push({ name: 'SystemEdit', query: { pageInfo: JSON.stringify(row) }, })
+            this.$router.push({ name: 'SystemEdit', query: { systemInfo: JSON.stringify(row) }, })
         }
     }
 }
