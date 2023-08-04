@@ -1,7 +1,7 @@
 <template>
   <el-container class="page-layout" style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px">
-      <el-menu :default-openeds="['1']">
+      <el-menu :default-active="activeMenu" @select="handleSelect">
         <el-menu-item index="1" @click="goToPage('TemplateIndex')">
           <i class="el-icon-menu"></i>
           <span slot="title">页面模版</span>
@@ -53,6 +53,11 @@ export default {
   name: "Layout",
   components: {
   },
+  data() {
+    return {
+      activeMenu: this.$cookies.getCurrentMenuIndex() || '1',
+    };
+  },
   computed: {
     ...mapGetters(["userInfo"]),
     key() {
@@ -93,6 +98,9 @@ export default {
         default:
           break;
       }
+    },
+    handleSelect(index) {
+      this.$cookies.setCurrentMenuIndex(index);
     }
   }
 };

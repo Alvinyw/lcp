@@ -5,17 +5,17 @@ import Cookies from 'js-cookie'
 // });
 // Cookies.remove("aa");
 
-// const currentMenuIndex = 'currentMenuIndex'
+const currentMenuIndex = 'currentMenuIndex'
 
-// export function getCurrentMenuIndex() {
-//   return (Cookies.get(currentMenuIndex))
-// }
-// export function setCurrentMenuIndex(val) {
-//   return Cookies.set(currentMenuIndex, val)
-// }
-// export function removeCurrentMenuIndex() {
-//   return Cookies.remove(currentMenuIndex)
-// }
+export function getCurrentMenuIndex() {
+  return (Cookies.get(currentMenuIndex))
+}
+export function setCurrentMenuIndex(val) {
+  return Cookies.set(currentMenuIndex, val)
+}
+export function removeCurrentMenuIndex() {
+  return Cookies.remove(currentMenuIndex)
+}
 export function setToken(token){
     return Cookies.set('token',token);
 }
