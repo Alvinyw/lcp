@@ -68,7 +68,7 @@ export default {
         resetForm() {
             const { systemInfo = '{}' } = this.$router.currentRoute.query;
             const { moduleStatus = '' } = JSON.parse(systemInfo);
-            this.ruleForm = { ...this.ruleForm, ...JSON.parse(systemInfo), moduleStatus: !!moduleStatus }
+            this.ruleForm = { ...this.ruleForm, ...JSON.parse(systemInfo), moduleStatus: moduleStatus.includes('true') }
         }
     }
 }

@@ -81,7 +81,7 @@ export default {
         resetForm() {
             const { pageInfo = '{}' } = this.$router.currentRoute.query;
             const { pageStatus = '' } = JSON.parse(pageInfo);
-            this.ruleForm = { ...this.ruleForm, ...JSON.parse(pageInfo), pageStatus: !!pageStatus }
+            this.ruleForm = { ...this.ruleForm, ...JSON.parse(pageInfo), pageStatus: pageStatus.includes('true') }
         }
     }
 }

@@ -55,7 +55,7 @@ export default {
         resetForm() {
             const { channelInfo = '{}' } = this.$router.currentRoute.query;
             const { channelStatus = '' } = JSON.parse(channelInfo);
-            this.ruleForm = { ...this.ruleForm, ...JSON.parse(channelInfo), channelStatus: !!channelStatus }
+            this.ruleForm = { ...this.ruleForm, ...JSON.parse(channelInfo), channelStatus: channelStatus.includes('true') }
         }
     }
 }

@@ -105,7 +105,7 @@ export default {
         resetForm() {
             const { userInfo = '{}' } = this.$router.currentRoute.query;
             const { templateUseAuth = '', userStatus = '' } = JSON.parse(userInfo);
-            this.userInfoForm = { ...this.userInfoForm, ...JSON.parse(userInfo), templateUseAuth: !!templateUseAuth, userStatus: !!userStatus }
+            this.userInfoForm = { ...this.userInfoForm, ...JSON.parse(userInfo), templateUseAuth: templateUseAuth.includes('true'), userStatus: userStatus.includes('true') }
         }
     }
 }
