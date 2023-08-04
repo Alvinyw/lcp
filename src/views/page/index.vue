@@ -60,8 +60,8 @@ export default {
     data() {
         return {
             queryParame: {
-                channelId: null,
-                moduleId: null,
+                channelId: '',
+                moduleId: '',
             },
             channelMap: [],
             systemMap: [],
