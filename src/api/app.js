@@ -173,6 +173,21 @@ import request from '@/utils/request'
 }
 
 /**
+ * 查询页面列表
+ * @param { channelId } 归属渠道
+ * @param { moduleId } 归属模块
+ * @param { pageNo } 当前页面页码
+ * @param { pageSize } 页面大小（单页面最大记录数）
+ */
+ export function pageInfoTableSelectList(data = {}) {
+  return request({
+    url: '/lowCodePageInfoTableSelectList',
+    method: 'post',
+    data,
+  })
+}
+
+/**
  * 新增页面
  * @param { pageName } 页面名称
  * @param { channelId } 归属渠道

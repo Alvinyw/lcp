@@ -66,6 +66,8 @@ export default {
             userId: this.loginForm.userId,
             passWd: this.loginForm.password
           }
+          this.$session.clearSessionData();
+          this.$cookies.removeCurrentMenuIndex();
           this.$api.user
             .login(params)
             .then((res) => {
@@ -104,7 +106,7 @@ export default {
     left: 50%;
     height: 300px;
     width: 400px;
-    margin: -300px 0 0 -200px;
+    margin: -250px 0 0 -200px;
 
     .title-container {
       text-align: center;

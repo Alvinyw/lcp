@@ -1,8 +1,22 @@
 <template>
     <div class="page-add">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="form-sec">
-            <el-form-item label="渠道名称" prop="channelName">
-                <el-input v-model="ruleForm.channelName"></el-input>
+            <el-form-item label="渠道" prop="channelId">
+                <el-select v-model="ruleForm.channelId" clearable placeholder="请选择渠道">
+                    <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName"
+                        :value="item.channelId">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="系统" prop="moduleId">
+                <el-select v-model="ruleForm.moduleId" clearable placeholder="请选择系统">
+                    <el-option v-for="item in systemMap" :key="item.moduleId" :label="item.moduleName"
+                        :value="item.moduleId">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="页面名称" prop="pageName">
+                <el-input v-model="ruleForm.pageName"></el-input>
             </el-form-item>
             <el-form-item label="备注" prop="remarks">
                 <el-input type="textarea" v-model="ruleForm.remarks"></el-input>
@@ -22,23 +36,45 @@ export default {
     data() {
         return {
             ruleForm: {
-                channelName: '',
+                channelId: '',
+                moduleId: '',
+                pageName: '',
                 remarks: '',
             },
+            channelMap: [],
+            systemMap: [],
             rules: {
-                channelName: [
+                channelId: [
+                    { required: true, message: '请选择渠道', trigger: 'change' },
+                ],
+                moduleId: [
+                    { required: true, message: '请选择系统', trigger: 'change' },
+                ],
+                pageName: [
                     { required: true, message: '请输入页面名称', trigger: 'blur' },
                 ],
             }
         };
     },
+    mounted() {
+        this.$api.app.channelInfoTableSelectList().then(res => {
+            const { data = {} } = res || {};
+            const { list = [] } = data;
+            this.channelMap = list;
+        });
+        this.$api.app.moduleInfoTableSelectList().then(res => {
+            const { data = {} } = res || {};
+            const { list = [] } = data;
+            this.systemMap = list;
+        });
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$api.app.channelInfoTableInsert(this.ruleForm).then(() => {
+                    this.$api.app.pageInfoTableInsert(this.ruleForm).then(() => {
                         this.$message({
-                            message: '新增渠道成功！',
+                            message: '新增页面成功！',
                             type: 'success'
                         });
                     }).catch(err => {
