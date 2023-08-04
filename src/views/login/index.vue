@@ -77,7 +77,7 @@ export default {
                 this.loading = false;
               }
             })
-            .catch((error) => {
+            .catch(() => {
               this.loading = false;
             });
         } else {
@@ -90,14 +90,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .login-container {
+  position: relative;
   height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
+  background: url("../../assets/images/bg_login.jpeg") no-repeat;
+  background-size: cover;
 
   .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     height: 300px;
     width: 400px;
+    margin: -300px 0 0 -200px;
 
     .title-container {
       text-align: center;
