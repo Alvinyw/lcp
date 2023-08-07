@@ -79,8 +79,12 @@ export default {
                 this.loading = false;
               }
             })
-            .catch(() => {
+            .catch(err => {
               this.loading = false;
+              this.$message({
+                    message: err,
+                    type: 'error'
+                });
             });
         } else {
           return false;

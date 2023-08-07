@@ -2,22 +2,29 @@
   <el-container class="home-index" style="height: 100vh; border: 1px solid #eee">
     <el-main class="tp-wrapper" v-loading="loading" element-loading-text="模版列表加载中"
       element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)">
-      <el-row class="sys-tab">
-        <div class="item">
-          <span>选择系统：</span>
-          <el-select v-model="currentSystem" placeholder="请选择系统">
-            <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+      <el-form :inline="true" :model="queryParame" class="demo-form-inline">
+        <el-form-item label="渠道">
+          <el-select v-model="queryParame.channelId" clearable placeholder="请选择渠道" @change="onChannelChange">
+            <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName" :value="item.channelId">
             </el-option>
           </el-select>
-        </div>
-        <div class="item">
-          <span>选择页面：</span>
-          <el-select v-model="currentPage" placeholder="请选择页面">
-            <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
+        </el-form-item>
+        <el-form-item label="系统">
+          <el-select v-model="queryParame.moduleId" clearable placeholder="请选择系统" @change="onModuleChange">
+            <el-option v-for="item in systemMap" :key="item.moduleId" :label="item.moduleName" :value="item.moduleId">
             </el-option>
           </el-select>
-        </div>
-      </el-row>
+        </el-form-item>
+        <el-form-item label="系统">
+          <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
+            <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onTemplateQuery">查询</el-button>
+        </el-form-item>
+      </el-form>
       <div class="tp-add" @click="onTemplateAdd"><i class="el-icon-plus"></i></div>
       <el-row v-for="(item, index) in templateList" :key="index" class="tp">
         <el-row class="sec-btm">
@@ -32,22 +39,26 @@
       </el-row>
     </el-main>
     <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="applyDialogVisible">
-      <el-row class="sys-tab">
-        <div class="item">
-          <span>选择系统：</span>
-          <el-select v-model="currentSystem" placeholder="请选择系统">
-            <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+      <el-form :inline="true" :model="queryParame" class="demo-form-inline">
+        <el-form-item label="渠道">
+          <el-select v-model="queryParame.channelId" clearable placeholder="请选择渠道" @change="onChannelChange">
+            <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName" :value="item.channelId">
             </el-option>
           </el-select>
-        </div>
-        <div class="item">
-          <span>选择页面：</span>
-          <el-select v-model="currentPage" placeholder="请选择页面">
-            <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
+        </el-form-item>
+        <el-form-item label="系统">
+          <el-select v-model="queryParame.moduleId" clearable placeholder="请选择系统" @change="onModuleChange">
+            <el-option v-for="item in systemMap" :key="item.moduleId" :label="item.moduleName" :value="item.moduleId">
             </el-option>
           </el-select>
-        </div>
-      </el-row>
+        </el-form-item>
+        <el-form-item label="系统">
+          <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
+            <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="applyDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="onTemplateApply">确 定</el-button>
@@ -60,7 +71,7 @@
 </template>
 
 <script>
-import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
+import { pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 
 export default {
@@ -70,8 +81,15 @@ export default {
       templateList: [],
       applyDialogVisible: false,
       previewDialogVisible: false,
+      queryParame: {
+        channelId: '',
+        moduleId: '',
+        pageId: ''
+      },
+      channelMap: [],
+      systemMap: [],
+      pageMap: [],
       previewCode,
-      systemMap,
       currentSystem: '',
       currentPage: '',
       selectedTmpId: '',
@@ -92,18 +110,38 @@ export default {
     },
   },
   async mounted() {
-    this.loading = true;
-    await this.$api.app.templateInfoListByPageId({})
-      .then(res => {
-        const { list = [] } = res.data || {};
-        this.templateList = list;
-      })
-      .catch(() => {
-      }).finally(() => {
-        this.loading = false;
-      });
+    this.queryParame.channelId = '';
+    this.$api.app.userPermissionList().then(res => {
+      const { channelList = [] } = res.data || {};
+      this.channelMap = channelList;
+    });
   },
   methods: {
+    onChannelChange(val) {
+      const { moduleList = [] } = this.channelMap.filter(v => v.channelId == val)[0] || {};
+      this.queryParame.channelId = val;
+      this.systemMap = moduleList;
+      this.queryParame.moduleId = '';
+    },
+    onModuleChange(val) {
+      const { list = [] } = this.systemMap.filter(v => v.moduleId == val)[0] || {};
+      this.queryParame.moduleId = val;
+      this.pageMap = list;
+      this.queryParame.pageId = '';
+    },
+    onPageChange(val) {
+      this.queryParame.pageId = val;
+    },
+    async onTemplateQuery() {
+      this.loading = true;
+      await this.$api.app.templateInfoListByPageId(this.queryParame)
+        .then(res => {
+          const { list = [] } = res.data || {};
+          this.templateList = list;
+        }).finally(() => {
+          this.loading = false;
+        });
+    },
     randomTime() {
       return `2023-0${Math.ceil(Math.random() * 9)}-0${Math.ceil(Math.random() * 9)}`;
     },
@@ -127,15 +165,15 @@ export default {
     },
     // 模版应用至系统
     async onTemplateApply() {
-      const { currentSystem = '', currentPage = '' } = this;
-      if (!currentSystem || !currentPage) {
+      const { pageId = '' } = this.queryParame;
+      if (!pageId) {
         this.$message({
-          message: '请先选择需要应用的系统和页面！',
+          message: '请先选择需要应用的页面！',
           type: 'error'
         });
         return;
       }
-      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId: currentPage })
+      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId: pageId })
         .then(() => {
           this.$message({
             message: '模版应用成功！',
@@ -201,7 +239,6 @@ export default {
 <style scoped lang="less">
 .home-index {
   .tp-wrapper {
-    padding: 0 8px 15px;
 
     .sys-tab {
       padding: 20px 15px;

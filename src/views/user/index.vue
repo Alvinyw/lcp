@@ -39,6 +39,8 @@
       </el-table-column>
       <el-table-column prop="templateUseAuth" label="模版应用权限">
       </el-table-column>
+      <el-table-column prop="userStatus" label="用户状态">
+      </el-table-column>
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">
           {{ $lib.getYYMMDD(scope.row.createTime) }}

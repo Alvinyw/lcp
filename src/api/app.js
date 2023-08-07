@@ -289,6 +289,17 @@ import request from '@/utils/request'
 }
 
 /**
+ * 获取模板操作页面的下拉列表（实时）
+ */
+ export function userPermissionList(data = {}) {
+  return request({
+    url: '/userPermissionList',
+    method: 'post',
+    data,
+  })
+}
+
+/**
  * 模板变更日志查询
  * @param { userName } 用户名称
  * @param { transDate } 交易日期
