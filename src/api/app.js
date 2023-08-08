@@ -219,13 +219,15 @@ import request from '@/utils/request'
 
 /**
  * 查询模板列表（指定页面）
+ * @param { channelId } 归属渠道
+ * @param { moduleId } 归属模块
  * @param { pageId } 归属页面
  * @param { pageNo } 当前页面页码
  * @param { pageSize } 页面大小（单页面最大记录数）
  */
- export function templateInfoListByPageId(data = {}) {
+ export function templateInfoListSelect(data = {}) {
   return request({
-    url: '/lowCodeTemplateInfoListByPageId',
+    url: '/lowCodeTemplateInfoListSelect',
     method: 'post',
     data,
   })

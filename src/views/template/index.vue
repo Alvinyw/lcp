@@ -29,8 +29,8 @@
       <el-row v-for="(item, index) in templateList" :key="index" class="tp">
         <el-row class="sec-btm">
           <p class="name">{{ item.templateName }}</p>
-          <p class="date">{{ randomTime() }}</p>
-          <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">使用</el-link><el-link type="primary"
+          <p class="date">{{ $lib.getYYMMDD(item.createTime) }}</p>
+          <p class="btn-grp"><el-link type="primary" @click="onApplyDialogShow(item)">应用</el-link><el-link type="primary"
               @click="onTemplateEdit(item)">编辑</el-link><el-link type="primary"
               @click="previewDialogVisible = true">预览</el-link><el-link type="primary"
               @click="onExportJSON(item)">导出</el-link>
@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { pageMap, systemPagesMap } from "@/const/systemType";
 import previewCode from '@/assets/images/preview_code.png';
 
 export default {
@@ -96,12 +95,13 @@ export default {
       loading: false,
     }
   },
-  async mounted() {
+  mounted() {
     this.queryParame.channelId = '';
     this.$api.app.userPermissionList().then(res => {
       const { channelList = [] } = res.data || {};
       this.channelMap = channelList;
     });
+    this.onTemplateQuery();
   },
   methods: {
     onChannelChange(val) {
@@ -119,18 +119,16 @@ export default {
     onPageChange(val) {
       this.queryParame.pageId = val;
     },
+    // 模版列表查询
     async onTemplateQuery() {
       this.loading = true;
-      await this.$api.app.templateInfoListByPageId(this.queryParame)
+      await this.$api.app.templateInfoListSelect(this.queryParame)
         .then(res => {
           const { list = [] } = res.data || {};
           this.templateList = list;
         }).finally(() => {
           this.loading = false;
         });
-    },
-    randomTime() {
-      return `2023-0${Math.ceil(Math.random() * 9)}-0${Math.ceil(Math.random() * 9)}`;
     },
     // 导出模版文件
     onExportJSON(item = {}) {
@@ -188,6 +186,15 @@ export default {
 };
 </script>
 
+<style lang="less">
+.home-index {
+    .dig-sys {
+        .el-dialog {
+            min-width: 815px;
+        }
+    }
+}
+</style>
 <style lang="less">
 .home-index {
   .dig-preCode {

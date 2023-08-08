@@ -264,7 +264,7 @@ export default {
             this.updateTemplateId();
             const { templateId = '' } = this.$router.currentRoute.query;
             if (templateId) {
-                this.$api.app.templateInfoTableUpdateById({ templateId: this.templateId, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
+                this.$api.app.templateInfoTableUpdateById({ templateId: this.templateId, templateName: title, templateContextJson: this.templateInfo })
                     .then(() => {
                         this.$message({
                             message: '模版更新成功！',
@@ -279,7 +279,7 @@ export default {
                     });
                 return;
             }
-            this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
+            this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContextJson: this.templateInfo })
                 .then(() => {
                     this.$message({
                         message: '模版保存成功！',
