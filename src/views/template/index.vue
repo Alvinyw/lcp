@@ -89,8 +89,6 @@ export default {
       systemMap: [],
       pageMap: [],
       previewCode,
-      currentSystem: '',
-      currentPage: '',
       selectedTmpId: '',
       loading: false,
     }
@@ -139,7 +137,7 @@ export default {
     onTemplateAdd() {
       this.$router.push({
         name: 'editIndex',
-        query: { systemType: this.currentSystem, pageType: this.currentSystem },
+        query: { },
       })
     },
     // 显示模版应用弹框
@@ -158,7 +156,7 @@ export default {
         });
         return;
       }
-      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId: pageId })
+      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId })
         .then(() => {
           this.$message({
             message: '模版应用成功！',

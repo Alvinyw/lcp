@@ -4,8 +4,7 @@
             <el-row class="lt"><el-button @click="goBack">返回</el-button></el-row>
             <el-row class="rt"><el-button @click="onImportJSON">导入</el-button><el-button
                     @click="onExportJSON">导出</el-button><el-button type="primary"
-                    @click="onTemplateSave">保存</el-button><el-button type="primary"
-                    @click="dialogTableVisible = true">应用</el-button></el-row>
+                    @click="onTemplateSave">保存</el-button></el-row>
         </el-header>
         <el-main class="sec-main">
             <el-row class="lt">
@@ -71,7 +70,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogTableVisible = false">取 消</el-button>
-                <el-button type="primary" @click="onTemplateApply">确 定</el-button>
+                <el-button type="primary" @click="onTemplateInsert">确 定</el-button>
             </span>
         </el-dialog>
     </el-container>
@@ -239,14 +238,6 @@ export default {
         onExportJSON() {
             this.$lib.exportJSON(JSON.stringify(this.templateInfo, undefined, 4), 'tab_life');
         },
-        updateTemplateId() {
-            const { templateId = '' } = this.$router.currentRoute.query;
-            if (templateId) {
-                this.templateId = templateId;
-                return;
-            }
-            this.templateId = new Date().getTime().toString();
-        },
         onTabClick(index = '1') {
             this.activtedIndex = index;
         },
@@ -261,10 +252,9 @@ export default {
         },
         async onTemplateSave() {
             const { title = '首页' } = this.headerNav.property;
-            this.updateTemplateId();
             const { templateId = '' } = this.$router.currentRoute.query;
             if (templateId) {
-                this.$api.app.templateInfoTableUpdateById({ templateId: this.templateId, templateName: title, templateContextJson: this.templateInfo })
+                this.$api.app.templateInfoTableUpdateById({ templateId, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
                     .then(() => {
                         this.$message({
                             message: '模版更新成功！',
@@ -279,40 +269,25 @@ export default {
                     });
                 return;
             }
+            this.dialogTableVisible = true;
+        },
+        onTemplateInsert() {
+            const { title = '首页' } = this.headerNav.property;
             this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContextJson: this.templateInfo })
-                .then(() => {
+                .then(res => {
                     this.$message({
                         message: '模版保存成功！',
                         type: 'success'
                     });
+                    const { templateId = '' } = res.data || {};
+                    this.$router.push({
+                        name: 'editIndex',
+                        query: { templateId, },
+                    })
                 })
                 .catch(() => {
                     this.$message({
                         message: '模版保存失败！',
-                        type: 'error'
-                    });
-                });
-        },
-        async onTemplateApply() {
-            const { currentSystem = '', currentPage = '' } = this;
-            if (!currentSystem || !currentPage) {
-                this.$message({
-                    message: '请先选择需要应用的系统和页面！',
-                    type: 'error'
-                });
-                return;
-            }
-            await this.onTemplateSave();
-            this.$api.app.templateInfoUse({ templateId: this.templateId, pageId: currentPage })
-                .then(() => {
-                    this.$message({
-                        message: '模版应用成功！',
-                        type: 'success'
-                    });
-                })
-                .catch(() => {
-                    this.$message({
-                        message: '模版应用失败！',
                         type: 'error'
                     });
                 }).finally(() => {
