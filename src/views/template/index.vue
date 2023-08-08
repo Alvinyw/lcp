@@ -15,7 +15,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="系统">
+        <el-form-item label="页面">
           <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
             <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
             </el-option>
@@ -52,7 +52,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="系统">
+        <el-form-item label="页面">
           <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
             <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
             </el-option>
@@ -95,19 +95,6 @@ export default {
       selectedTmpId: '',
       loading: false,
     }
-  },
-  computed: {
-    pageAry() {
-      const { currentSystem = '' } = this;
-      const _sp = systemPagesMap.filter(item => item.value == currentSystem);
-      if (_sp.length < 1) return {};
-      const _res = [];
-      _sp[0].pages.forEach(ele => {
-        const _t = pageMap.filter(val => val.value == ele)[0] || {};
-        _res.push(_t);
-      });
-      return _res;
-    },
   },
   async mounted() {
     this.queryParame.channelId = '';
@@ -203,26 +190,6 @@ export default {
 
 <style lang="less">
 .home-index {
-  .dig-sys {
-    .sys-tab {
-      display: flex;
-      justify-content: left;
-      align-items: center;
-
-      .item {
-
-        &:first-child {
-          margin: 0 40px 0 0;
-        }
-
-        span {
-          margin: 0 10px 0 0;
-          font-size: 16px;
-        }
-      }
-    }
-  }
-
   .dig-preCode {
     .el-dialog__body {
       display: flex;
@@ -239,23 +206,6 @@ export default {
 <style scoped lang="less">
 .home-index {
   .tp-wrapper {
-
-    .sys-tab {
-      padding: 20px 15px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-
-      .item {
-        margin: 0 50px 0 0;
-
-        span {
-          margin: 0 10px 0 0;
-          font-size: 16px;
-        }
-      }
-    }
-
     .tp-add {
       display: inline-block;
       position: relative;

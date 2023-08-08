@@ -47,22 +47,28 @@
             <RightIndex />
         </el-main>
         <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="dialogTableVisible">
-            <el-row class="sys-tab">
-                <div class="item">
-                    <span>选择系统：</span>
-                    <el-select v-model="currentSystem" placeholder="请选择系统">
-                        <el-option v-for="item in systemMap" :key="item.value" :label="item.name" :value="item.value">
+            <el-form :inline="true" :model="queryParame" class="demo-form-inline">
+                <el-form-item label="渠道：">
+                    <el-select v-model="queryParame.channelId" clearable placeholder="请选择渠道" @change="onChannelChange">
+                        <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName"
+                            :value="item.channelId">
                         </el-option>
                     </el-select>
-                </div>
-                <div class="item">
-                    <span>选择页面：</span>
-                    <el-select v-model="currentPage" placeholder="请选择页面">
-                        <el-option v-for="item in pageAry" :key="item.value" :label="item.name" :value="item.value">
+                </el-form-item>
+                <el-form-item label="系统：">
+                    <el-select v-model="queryParame.moduleId" clearable placeholder="请选择系统" @change="onModuleChange">
+                        <el-option v-for="item in systemMap" :key="item.moduleId" :label="item.moduleName"
+                            :value="item.moduleId">
                         </el-option>
                     </el-select>
-                </div>
-            </el-row>
+                </el-form-item>
+                <el-form-item label="页面：">
+                    <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
+                        <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogTableVisible = false">取 消</el-button>
                 <el-button type="primary" @click="onTemplateApply">确 定</el-button>
@@ -75,7 +81,6 @@ import { mapGetters } from "vuex";
 import MiddleIndex from "./middle.vue";
 import RightIndex from "./right.vue";
 import { componentType, componentTypeMap, componentProperty } from "@/const/componentType";
-import { systemMap, pageMap, systemPagesMap } from "@/const/systemType";
 // 模版
 import img_moban_1 from '@/assets/images/img_moban_1.jpg';
 import img_moban_4 from '@/assets/images/img_moban_4.png';
@@ -149,11 +154,18 @@ export default {
             SuCai,
             componentType,
             ZuJianList: [],
-            systemMap,
             currentSystem: '',
             currentPage: '',
             templateId: new Date().getTime().toString(),
             dialogTableVisible: false,
+            queryParame: {
+                channelId: '',
+                moduleId: '',
+                pageId: ''
+            },
+            channelMap: [],
+            systemMap: [],
+            pageMap: [],
         }
 
     },
@@ -167,24 +179,13 @@ export default {
             const { headerNav = {} } = this.templateInfo;
             return headerNav;
         },
-        pageAry() {
-            const { currentSystem = '' } = this;
-            const _sp = systemPagesMap.filter(item => item.value == currentSystem);
-            if (_sp.length < 1) return {};
-            const _res = [];
-            _sp[0].pages.forEach(ele => {
-                const _t = pageMap.filter(val => val.value == ele)[0] || {};
-                _res.push(_t);
-            });
-            return _res;
-        },
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
             // 通过 `vm` 访问组件实例
             const { templateId = '' } = vm.$router.currentRoute.query;
             if (templateId) {
-                vm.$api.app.perTemplateQry({ templateId })
+                vm.$api.app.templateInfoTableSelectById({ templateId })
                     .then(res => {
                         const { templateContext = '{}' } = res.data || {};
                         const _tmp = JSON.parse(templateContext);
@@ -202,9 +203,29 @@ export default {
     },
     mounted() {
         this.uodateZuJianList();
+        this.queryParame.channelId = '';
+        this.$api.app.userPermissionList().then(res => {
+            const { channelList = [] } = res.data || {};
+            this.channelMap = channelList;
+        });
         // console.log('=======router======', this.$router.currentRoute.query)
     },
     methods: {
+        onChannelChange(val) {
+            const { moduleList = [] } = this.channelMap.filter(v => v.channelId == val)[0] || {};
+            this.queryParame.channelId = val;
+            this.systemMap = moduleList;
+            this.queryParame.moduleId = '';
+        },
+        onModuleChange(val) {
+            const { list = [] } = this.systemMap.filter(v => v.moduleId == val)[0] || {};
+            this.queryParame.moduleId = val;
+            this.pageMap = list;
+            this.queryParame.pageId = '';
+        },
+        onPageChange(val) {
+            this.queryParame.pageId = val;
+        },
         goBack() {
             this.$router.go(-1);
         },
@@ -243,7 +264,7 @@ export default {
             this.updateTemplateId();
             const { templateId = '' } = this.$router.currentRoute.query;
             if (templateId) {
-                this.$api.app.perTemplateUpd({ templateId: this.templateId, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
+                this.$api.app.templateInfoTableUpdateById({ templateId: this.templateId, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
                     .then(() => {
                         this.$message({
                             message: '模版更新成功！',
@@ -258,7 +279,7 @@ export default {
                     });
                 return;
             }
-            this.$api.app.perTemplateAdd({ templateId: this.templateId, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
+            this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
                 .then(() => {
                     this.$message({
                         message: '模版保存成功！',
@@ -282,7 +303,7 @@ export default {
                 return;
             }
             await this.onTemplateSave();
-            this.$api.app.perPageTemplateMappingUse({ templateId: this.templateId, pageId: currentPage })
+            this.$api.app.templateInfoUse({ templateId: this.templateId, pageId: currentPage })
                 .then(() => {
                     this.$message({
                         message: '模版应用成功！',
@@ -317,34 +338,14 @@ export default {
 <style lang="less">
 .edit-index {
     .dig-sys {
-        .sys-tab {
-            display: flex;
-            justify-content: left;
-            align-items: center;
-
-            .item {
-
-                &:first-child {
-                    margin: 0 40px 0 0;
-                }
-
-                span {
-                    margin: 0 10px 0 0;
-                    font-size: 16px;
-                }
-            }
+        .el-dialog {
+            min-width: 815px;
         }
     }
 }
 </style>
 <style scoped lang="less">
 .edit-index {
-    .dig-tb {
-        table {
-            width: 100% !important;
-        }
-    }
-
     .sec-hd {
         height: 59px;
         width: 100%;

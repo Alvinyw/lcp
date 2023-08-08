@@ -314,7 +314,47 @@ import request from '@/utils/request'
   })
 }
 
+/**
+ * 图片上传
+ * @param { pictureName } 中文名称
+ * @param { pictureFormat } 图片格式（jpg，png等）
+ * @param { channelId } 归属渠道
+ * @param { moduleId } 归属模块
+ * @param { pictureBase64 } 图片内容（base64字符串）
+ * @param { remark } 备注
+ */
+ export function pictureInfoTableInsert(data = {}) {
+  return request({
+    url: '/lowCodePictureInfoTableInsert',
+    method: 'post',
+    data,
+  })
+}
 
+/**
+ * 图片上传
+ * @param { pictureId } 图片编号
+ */
+ export function pictureInfoTableSelectById(data = {}) {
+  return request({
+    url: '/lowCodePictureInfoTableSelectById',
+    method: 'post',
+    data,
+  })
+}
 
-
-
+/**
+ * 图片上传
+ * @param { pictureName } 中文名称
+ * @param { channelId } 归属渠道
+ * @param { moduleId } 归属模块
+ * @param { pageNo } 当前页面页码
+ * @param { pageSize } 页面大小（单页面最大记录数）
+ */
+ export function pictureInfoTableSelectList(data = {}) {
+  return request({
+    url: '/lowCodePictureInfoTableSelectList',
+    method: 'post',
+    data,
+  })
+}
