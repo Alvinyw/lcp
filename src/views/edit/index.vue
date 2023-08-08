@@ -153,9 +153,6 @@ export default {
             SuCai,
             componentType,
             ZuJianList: [],
-            currentSystem: '',
-            currentPage: '',
-            templateId: new Date().getTime().toString(),
             dialogTableVisible: false,
             queryParame: {
                 channelId: '',
@@ -273,7 +270,7 @@ export default {
         },
         onTemplateInsert() {
             const { title = '首页' } = this.headerNav.property;
-            this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContextJson: this.templateInfo })
+            this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
                 .then(res => {
                     this.$message({
                         message: '模版保存成功！',
