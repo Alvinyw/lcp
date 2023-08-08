@@ -93,7 +93,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$api.app.userInfoTableUpdateById(this.userInfoForm).then(() => {
+                    this.$api.user.userInfoTableUpdateById(this.userInfoForm).then(() => {
                         this.$message({
                             message: '更新用户信息成功！',
                             type: 'success'

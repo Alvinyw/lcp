@@ -63,7 +63,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$api.app.userModPassWdLowCode({ ...this.ruleForm, userId: this.userId }).then(() => {
+                    this.$api.user.userModPassWd({ ...this.ruleForm, userId: this.userId }).then(() => {
                         this.$message({
                             message: '更新密码成功！',
                             type: 'success'

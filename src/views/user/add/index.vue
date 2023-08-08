@@ -86,8 +86,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log('=========this.ruleForm=========', this.ruleForm)
-                    this.$api.app.userInfoTableInsert(this.ruleForm).then(() => {
+                    this.$api.user.userInfoTableInsert(this.ruleForm).then(() => {
                         this.$message({
                             message: '新增用户成功！',
                             type: 'success'

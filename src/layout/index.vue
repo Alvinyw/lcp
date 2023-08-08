@@ -79,7 +79,7 @@ export default {
       this.$router.push({ name: pageName })
     },
     onLogOut() {
-      this.$api.app.userLoginOutLowCode().then(() => {
+      this.$api.user.userLoginOut().then(() => {
         this.$router.push({ name: 'Login' })
         this.$message({
           message: '退出登录！',

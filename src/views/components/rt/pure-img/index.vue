@@ -72,6 +72,7 @@ export default {
             if (file) {
                 const _url = await this.$lib.urlToBase64(file.url);
                 this.obj.icon = [{ ...file, url: _url }]
+                this.$api.app.pictureInfoTableInsert({ pictureBase64: _url });
             }
         },
         handleRemove(file, fileList) {

@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     onQuery() {
-      this.$api.app.userInfoTableSelectAll(
+      this.$api.user.userInfoTableSelectAll(
         this.queryParame
       ).then(res => {
         const { data = {} } = res || {};

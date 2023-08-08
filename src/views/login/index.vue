@@ -69,7 +69,7 @@ export default {
           this.$session.clearSessionData();
           this.$cookies.removeCurrentMenuIndex();
           this.$api.user
-            .login(params)
+            .userLogin(params)
             .then((res) => {
               if (res != null) {
                 setToken(res.data.token);
@@ -82,9 +82,9 @@ export default {
             .catch(err => {
               this.loading = false;
               this.$message({
-                    message: err,
-                    type: 'error'
-                });
+                message: err,
+                type: 'error'
+              });
             });
         } else {
           return false;
@@ -109,11 +109,14 @@ export default {
     top: 50%;
     left: 50%;
     height: 300px;
-    width: 400px;
-    margin: -250px 0 0 -200px;
+    width: 340px;
+    margin: -200px 0 0 -170px;
 
     .title-container {
       text-align: center;
+      h3 {
+        margin: 0 0 20px 0;
+      }
     }
 
     .submit-container {
