@@ -38,32 +38,8 @@
         </el-row>
       </el-row>
     </el-main>
-    <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="applyDialogVisible">
-      <el-form :inline="true" :model="queryParame" class="demo-form-inline">
-        <el-form-item label="渠道">
-          <el-select v-model="queryParame.channelId" clearable placeholder="请选择渠道" @change="onChannelChange">
-            <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName" :value="item.channelId">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="系统">
-          <el-select v-model="queryParame.moduleId" clearable placeholder="请选择系统" @change="onModuleChange">
-            <el-option v-for="item in systemMap" :key="item.moduleId" :label="item.moduleName" :value="item.moduleId">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="页面">
-          <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
-            <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="applyDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onTemplateApply">确 定</el-button>
-      </span>
-    </el-dialog>
+    <dialog-template-apply :visible.sync="applyDialogVisible" :default-parame="applyParame"
+      @confirm="onApplyConfirm"></dialog-template-apply>
     <el-dialog class="dig-preCode" title="预览页面" :visible.sync="previewDialogVisible">
       <img :src="previewCode" />
     </el-dialog>
@@ -72,9 +48,11 @@
 
 <script>
 import previewCode from '@/assets/images/preview_code.png';
+import DialogTemplateApply from '@/components/dialog-template-apply';
 
 export default {
   name: "TemplateIndex",
+  components: { DialogTemplateApply },
   data() {
     return {
       templateList: [],
@@ -88,13 +66,14 @@ export default {
       channelMap: [],
       systemMap: [],
       pageMap: [],
+      applyParame: {
+      },
       previewCode,
       selectedTmpId: '',
       loading: false,
     }
   },
   mounted() {
-    this.queryParame.channelId = '';
     this.$api.app.userPermissionList().then(res => {
       const { channelList = [] } = res.data || {};
       this.channelMap = channelList;
@@ -107,6 +86,7 @@ export default {
       this.queryParame.channelId = val;
       this.systemMap = moduleList;
       this.queryParame.moduleId = '';
+      this.queryParame.pageId = '';
     },
     onModuleChange(val) {
       const { list = [] } = this.systemMap.filter(v => v.moduleId == val)[0] || {};
@@ -116,6 +96,9 @@ export default {
     },
     onPageChange(val) {
       this.queryParame.pageId = val;
+    },
+    onApplyConfirm(obj) {
+      this.onTemplateApply(obj);
     },
     // 模版列表查询
     async onTemplateQuery() {
@@ -137,26 +120,20 @@ export default {
     onTemplateAdd() {
       this.$router.push({
         name: 'editIndex',
-        query: { },
+        query: {},
       })
     },
     // 显示模版应用弹框
     onApplyDialogShow(item = {}) {
-      const { templateId = '' } = item;
+      const { templateId = '', channelId = '', moduleId = '', pageId = '' } = item;
       this.selectedTmpId = templateId;
+      this.applyParame = { channelId, moduleId, pageId }
       this.applyDialogVisible = true;
     },
     // 模版应用至系统
-    async onTemplateApply() {
-      const { pageId = '' } = this.queryParame;
-      if (!pageId) {
-        this.$message({
-          message: '请先选择需要应用的页面！',
-          type: 'error'
-        });
-        return;
-      }
-      this.$api.app.perPageTemplateMappingUse({ templateId: this.selectedTmpId, pageId })
+    onTemplateApply(obj) {
+      const { pageId = '' } = obj || {};
+      this.$api.app.templateInfoUse({ templateId: this.selectedTmpId, pageId })
         .then(() => {
           this.$message({
             message: '模版应用成功！',
@@ -186,11 +163,11 @@ export default {
 
 <style lang="less">
 .home-index {
-    .dig-sys {
-        .el-dialog {
-            min-width: 815px;
-        }
+  .dig-sys {
+    .el-dialog {
+      min-width: 850px;
     }
+  }
 }
 </style>
 <style lang="less">

@@ -45,40 +45,15 @@
             <MiddleIndex />
             <RightIndex />
         </el-main>
-        <el-dialog class="dig-sys" title="选择应用系统" :visible.sync="dialogTableVisible">
-            <el-form :inline="true" :model="queryParame" class="demo-form-inline">
-                <el-form-item label="渠道：">
-                    <el-select v-model="queryParame.channelId" clearable placeholder="请选择渠道" @change="onChannelChange">
-                        <el-option v-for="item in channelMap" :key="item.channelId" :label="item.channelName"
-                            :value="item.channelId">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="系统：">
-                    <el-select v-model="queryParame.moduleId" clearable placeholder="请选择系统" @change="onModuleChange">
-                        <el-option v-for="item in systemMap" :key="item.moduleId" :label="item.moduleName"
-                            :value="item.moduleId">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="页面：">
-                    <el-select v-model="queryParame.pageId" placeholder="请选择页面" @change="onPageChange">
-                        <el-option v-for="item in pageMap" :key="item.pageId" :label="item.pageName" :value="item.pageId">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogTableVisible = false">取 消</el-button>
-                <el-button type="primary" @click="onTemplateInsert">确 定</el-button>
-            </span>
-        </el-dialog>
+        <dialog-template-apply :visible.sync="dialogTableVisible" :default-parame="applyParame"
+            @confirm="onApplyConfirm"></dialog-template-apply>
     </el-container>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import MiddleIndex from "./middle.vue";
 import RightIndex from "./right.vue";
+import DialogTemplateApply from '@/components/dialog-template-apply';
 import { componentType, componentTypeMap, componentProperty } from "@/const/componentType";
 // 模版
 import img_moban_1 from '@/assets/images/img_moban_1.jpg';
@@ -143,7 +118,7 @@ const MoBan = [
 ];
 export default {
     name: "EditIndex",
-    components: { MiddleIndex, RightIndex },
+    components: { MiddleIndex, RightIndex, DialogTemplateApply },
     data() {
         return {
             activtedIndex: 0,
@@ -154,14 +129,7 @@ export default {
             componentType,
             ZuJianList: [],
             dialogTableVisible: false,
-            queryParame: {
-                channelId: '',
-                moduleId: '',
-                pageId: ''
-            },
-            channelMap: [],
-            systemMap: [],
-            pageMap: [],
+            applyParame: {},
         }
 
     },
@@ -183,9 +151,9 @@ export default {
             if (templateId) {
                 vm.$api.app.templateInfoTableSelectById({ templateId })
                     .then(res => {
-                        const { templateContext = '{}' } = res.data || {};
+                        const { templateContext = '{}', channelId = '', moduleId = '', pageId = '' } = res.data || {};
                         const _tmp = JSON.parse(templateContext);
-                        // console.log('=======templateContext========', _tmp)
+                        vm.applyParame = { channelId, moduleId, pageId }
                         vm.$store.dispatch("app/updateTemplateInfo", { ..._tmp });
                     });
             } else {
@@ -199,29 +167,8 @@ export default {
     },
     mounted() {
         this.uodateZuJianList();
-        this.queryParame.channelId = '';
-        this.$api.app.userPermissionList().then(res => {
-            const { channelList = [] } = res.data || {};
-            this.channelMap = channelList;
-        });
-        // console.log('=======router======', this.$router.currentRoute.query)
     },
     methods: {
-        onChannelChange(val) {
-            const { moduleList = [] } = this.channelMap.filter(v => v.channelId == val)[0] || {};
-            this.queryParame.channelId = val;
-            this.systemMap = moduleList;
-            this.queryParame.moduleId = '';
-        },
-        onModuleChange(val) {
-            const { list = [] } = this.systemMap.filter(v => v.moduleId == val)[0] || {};
-            this.queryParame.moduleId = val;
-            this.pageMap = list;
-            this.queryParame.pageId = '';
-        },
-        onPageChange(val) {
-            this.queryParame.pageId = val;
-        },
         goBack() {
             this.$router.go(-1);
         },
@@ -247,6 +194,9 @@ export default {
                 this.ZuJianList.push({ ...item, typeMap: _t })
             })
         },
+        onApplyConfirm(obj) {
+            this.onTemplateInsert(obj);
+        },
         async onTemplateSave() {
             const { title = '首页' } = this.headerNav.property;
             const { templateId = '' } = this.$router.currentRoute.query;
@@ -258,19 +208,19 @@ export default {
                             type: 'success'
                         });
                     })
-                    .catch(() => {
+                    .catch(err => {
                         this.$message({
-                            message: '模版更新失败！',
-                            type: 'error'
+                            message: err.message,
+                            type: 'warning'
                         });
                     });
                 return;
             }
             this.dialogTableVisible = true;
         },
-        onTemplateInsert() {
+        onTemplateInsert(obj) {
             const { title = '首页' } = this.headerNav.property;
-            this.$api.app.templateInfoTableInsert({ ...this.queryParame, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
+            this.$api.app.templateInfoTableInsert({ ...obj, templateName: title, templateContext: JSON.stringify(this.templateInfo) })
                 .then(res => {
                     this.$message({
                         message: '模版保存成功！',
@@ -311,7 +261,7 @@ export default {
 .edit-index {
     .dig-sys {
         .el-dialog {
-            min-width: 815px;
+            min-width: 850px;
         }
     }
 }
