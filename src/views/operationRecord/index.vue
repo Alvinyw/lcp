@@ -22,13 +22,11 @@
             </el-table-column>
             <el-table-column prop="templateName" label="模板名称">
             </el-table-column>
-            <el-table-column prop="channelId" label="渠道编号">
-            </el-table-column>
             <el-table-column prop="serviceUrl" label="服务ID">
             </el-table-column>
             <el-table-column prop="serviceDesc" label="服务名称">
             </el-table-column>
-            <el-table-column prop="createTime" label="交易日期">
+            <el-table-column prop="createTime" label="操作日期">
                 <template slot-scope="scope">
                     {{ $lib.getYYMMDD(scope.row.transDate) }}
                 </template>
@@ -42,33 +40,25 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
 
 export default {
     name: "OperationRecord",
     data() {
         return {
             queryParame: {
-                userName: null,
-                transDate: null,
+                userName: '',
+                transDate: '',
             },
             tableData: [
             ],
         }
     },
-    computed: {
-        ...mapGetters(["userInfo"]),
-    },
     mounted() {
-        const { userName = '' } = this.userInfo;
-        this.onQuery({
-            userName,
-            transDate: new Date()
-        });
+        this.onQuery();
     },
     methods: {
-        onQuery(paraem = this.queryParame) {
-            this.$api.app.templateLogTableSelectAll(paraem).then(res => {
+        onQuery() {
+            this.$api.app.templateLogTableSelectAll(this.queryParame).then(res => {
                 const { data = {} } = res || {};
                 const { list = [] } = data;
                 this.tableData = list;
