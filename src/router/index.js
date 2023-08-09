@@ -146,8 +146,8 @@ const router = new Router({
 
     {
       path: '/edit',
-      name: 'editIndex',
-      component: () => import( /* webpackChunkName: "edit" */ '@/views/edit/index'),
+      name: 'TemplateEdit',
+      component: () => import( /* webpackChunkName: "edit" */ '@/views/template/edit/index'),
     },
 
     // 成功

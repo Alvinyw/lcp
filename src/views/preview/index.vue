@@ -25,7 +25,7 @@
 import { pageType } from "@/const/systemType";
 import bgHeaderNav from '@/assets/images/bg_headerNav.svg';
 import { componentType, componentProperty } from "@/const/componentType";
-import { mapToMdComponents } from "../edit/utils";
+import { mapToMdComponents } from "../template/edit/utils";
 
 export default {
     name: "PreviewIndex",

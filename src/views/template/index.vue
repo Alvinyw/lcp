@@ -119,7 +119,7 @@ export default {
     // 新增模版
     onTemplateAdd() {
       this.$router.push({
-        name: 'editIndex',
+        name: 'TemplateEdit',
         query: {},
       })
     },
@@ -153,7 +153,7 @@ export default {
     onTemplateEdit(item = {}) {
       const { templateId } = item;
       this.$router.push({
-        name: 'editIndex',
+        name: 'TemplateEdit',
         query: { templateId, },
       })
     }

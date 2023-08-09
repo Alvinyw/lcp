@@ -117,7 +117,7 @@ const MoBan = [
     { src: img_moban_1, name: '首页模版' }, { src: img_moban_5, name: '我的页面模版' }, { src: img_moban_4, name: '生活页面模版' }
 ];
 export default {
-    name: "EditIndex",
+    name: "TemplateEdit",
     components: { MiddleIndex, RightIndex, DialogTemplateApply },
     data() {
         return {
@@ -228,7 +228,7 @@ export default {
                     });
                     const { templateId = '' } = res.data || {};
                     this.$router.push({
-                        name: 'editIndex',
+                        name: 'TemplateEdit',
                         query: { templateId, },
                     })
                 })
