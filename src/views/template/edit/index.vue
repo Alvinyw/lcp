@@ -83,6 +83,20 @@ const TabList = [
 
 const ZuJian = [
     {
+        title: '表单组件',
+        type: [
+            componentType.INPUT,
+            componentType.MULTI_SELECT,
+            componentType.INPUT_NUMBER,
+            componentType.SELECT,
+            componentType.RADIO,
+            componentType.CHECK_BOXS,
+            componentType.TEXT_AREA,
+            componentType.DATE_PICKER,
+            componentType.TIME_PICKER
+        ]
+    },
+    {
         title: '基础组件',
         type: [
             componentType.PURE_TEXT,

@@ -13,6 +13,17 @@ export const componentType = {
     QUICK_ENTER: 7, // 快捷入口
     MARGIN: 8, // 间隔
 
+    // 表单组件
+    INPUT: 'input', // "单行文本"
+    MULTI_SELECT: 'multiSelect', // "下拉多选"
+    INPUT_NUMBER: 'inputNumber', // "数字输入框"
+    SELECT: "select", // "下拉单选"
+    RADIO: "radio", // "点击单选"
+    CHECK_BOXS: "checkboxes", // "点击多选"
+    TEXT_AREA: "textArea", // "多行文本"
+    DATE_PICKER: "datePicker", // "日期选择"
+    TIME_PICKER: "timePicker", // ""时间选择""
+
     // 业务组件
     LICAI: 11, // 理财
     CUNKUAN: 12, // 存款
@@ -25,10 +36,55 @@ export const componentType = {
     HEADER_NAV: 30, // 顶部导航
     FOOTER_NAV: 31, // 底部导航
     //生活页素材,便民服务 Convenience service
-    CONVENIENCE_SERVICE:32,
+    CONVENIENCE_SERVICE: 32,
 };
 
 export const componentTypeMap = [
+    {
+        value: componentType.INPUT,
+        icon: 'el-icon-picture',
+        name: '单行文本',
+    },
+    {
+        value: componentType.MULTI_SELECT,
+        icon: 'el-icon-picture',
+        name: '下拉多选',
+    },
+    {
+        value: componentType.INPUT_NUMBER,
+        icon: 'el-icon-document',
+        name: '数字输入框',
+    },
+    {
+        value: componentType.SELECT,
+        icon: 'el-icon-picture',
+        name: '下拉单选',
+    },
+    {
+        value: componentType.RADIO,
+        icon: 'el-icon-picture',
+        name: '点击单选',
+    },
+    {
+        value: componentType.CHECK_BOXS,
+        icon: 'el-icon-document',
+        name: '点击多选',
+    },
+    {
+        value: componentType.TEXT_AREA,
+        icon: 'el-icon-picture',
+        name: '多行文本',
+    },
+    {
+        value: componentType.DATE_PICKER,
+        icon: 'el-icon-picture',
+        name: '日期选择',
+    },
+    {
+        value: componentType.TIME_PICKER,
+        icon: 'el-icon-document',
+        name: '时间选择',
+    },
     {
         value: componentType.MARGIN,
         icon: 'el-icon-picture',
@@ -96,9 +152,9 @@ export const componentTypeMap = [
     },
     //生活页面素材-便民服务-CONVENIENCE_SERVICE
     {
-        value:componentType.CONVENIENCE_SERVICE,
-        icon:'el-icon-lock',
-        name:'便民服务'
+        value: componentType.CONVENIENCE_SERVICE,
+        icon: 'el-icon-lock',
+        name: '便民服务'
     }
 ];
 
@@ -165,7 +221,7 @@ export const componentProperty = [
     {
         value: componentType.QUICK_ENTER,
         property: {
-            icon: [{ url: 'https://b.yzcdn.cn/public_files/d3d6648d247605d7f9a37114ccb398dd.png'}],
+            icon: [{ url: 'https://b.yzcdn.cn/public_files/d3d6648d247605d7f9a37114ccb398dd.png' }],
             iconSize: '30',
             text: '快捷入口',
             link: '2',
@@ -247,45 +303,45 @@ export const componentProperty = [
     },
     //生活页面素材-便民服务-CONVENIENCE_SERVICE
     {
-        value:componentType.CONVENIENCE_SERVICE,
-        property:{
-            bgColor:'#fff',
-            borderRadius:'12',
-            padding:'20',
-            imgHeight:'20',
-            imgWidth:'20',
-            imgMarginRight:'10',
-            adTitleColor:'#000',
-            adTitleFontSize:'20',
-            adTitleFontWeight:'500',
-            adTitleMarginBottom:'10',
-            adContentColor:'#000',
-            adContentFontSize:'15',
-            adContentFontWeight:'400',
-            items:[
+        value: componentType.CONVENIENCE_SERVICE,
+        property: {
+            bgColor: '#fff',
+            borderRadius: '12',
+            padding: '20',
+            imgHeight: '20',
+            imgWidth: '20',
+            imgMarginRight: '10',
+            adTitleColor: '#000',
+            adTitleFontSize: '20',
+            adTitleFontWeight: '500',
+            adTitleMarginBottom: '10',
+            adContentColor: '#000',
+            adContentFontSize: '15',
+            adContentFontWeight: '400',
+            items: [
                 {
-                    adTitle:'社保缴费',
-                    adContent:'查缴无忧',
-                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
-                    link:''
+                    adTitle: '社保缴费',
+                    adContent: '查缴无忧',
+                    imgUrl: 'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link: ''
                 },
-                {   
-                    adTitle:'公积金',
-                    adContent:'查余额明细',
-                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
-                    link:''
+                {
+                    adTitle: '公积金',
+                    adContent: '查余额明细',
+                    imgUrl: 'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link: ''
                 },
-                {   
-                    adTitle:'非税代缴',
-                    adContent:'一健查缴',
-                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
-                    link:''
+                {
+                    adTitle: '非税代缴',
+                    adContent: '一健查缴',
+                    imgUrl: 'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link: ''
                 },
-                {   
-                    adTitle:'电子社保卡',
-                    adContent:'在线申领',
-                    imgUrl:'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
-                    link:''
+                {
+                    adTitle: '电子社保卡',
+                    adContent: '在线申领',
+                    imgUrl: 'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg',
+                    link: ''
                 }
             ]
         }
