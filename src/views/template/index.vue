@@ -38,7 +38,7 @@
         </el-row>
       </el-row>
     </el-main>
-    <dialog-template-apply :visible.sync="applyDialogVisible" :default-parame="applyParame"
+    <dialog-template-apply v-if="!!selectedTmpId" :visible.sync="applyDialogVisible" :default-parame="applyParame"
       @confirm="onApplyConfirm"></dialog-template-apply>
     <el-dialog class="dig-preCode" title="预览页面" :visible.sync="previewDialogVisible">
       <img :src="previewCode" />

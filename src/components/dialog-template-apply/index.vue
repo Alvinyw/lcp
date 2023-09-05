@@ -54,6 +54,11 @@ export default {
             channelMap: [],
             systemMap: [],
             pageMap: [],
+            applyParame: {
+                channelId: '',
+                moduleId: '',
+                pageId: ''
+            }
         }
     },
     computed: {
@@ -65,39 +70,32 @@ export default {
                 this.$emit("update:visible", v);
             }
         },
-        applyParame() {
-            return { ...this.defaultParame }
-        }
-    },
-    watch: {
-        applyParame: {
-            handler(newVal) {
-                const { channelId = '', moduleId = '', pageId = '' } = newVal || {};
-                if (channelId) {
-                    this.onChannelChange(channelId);
-                }
-                if (moduleId) {
-                    this.onModuleChange(moduleId)
-                }
-                if (pageId) {
-                    this.onPageChange(pageId)
-                }
-            },
-            deep: true
-        },
     },
     mounted() {
-        this.applyParame = {
-            channelId: '',
-            moduleId: '',
-            pageId: ''
-        };
         this.$api.app.userPermissionList().then(res => {
             const { channelList = [] } = res.data || {};
             this.channelMap = channelList;
+            this.initData();
         });
     },
     methods: {
+        initData() {
+            const { channelId = '', moduleId = '', pageId = '' } = this.defaultParame;
+            this.applyParame = {
+                channelId,
+                moduleId,
+                pageId
+            };
+            if (channelId) {
+                this.onChannelChange(channelId);
+            }
+            if (moduleId) {
+                this.onModuleChange(moduleId)
+            }
+            if (pageId) {
+                this.onPageChange(pageId)
+            }
+        },
         onChannelChange(val) {
             const { moduleList = [] } = this.channelMap.filter(v => v.channelId == val)[0] || {};
             this.applyParame.channelId = val;
