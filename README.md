@@ -15,7 +15,7 @@ npm run build
 ```
 
 ### 注意事项
-- Nodejs: 安装 v8.11.1 版本(若已安装，可以使用nvm切换nodeJs版本)
+- Nodejs: 安装 v12.11.1 版本(若已安装，可以使用nvm切换nodeJs版本)
 - Visual Studio Code: 代码开发工具(视个人喜好，推荐)
 - GitLab: 开发协作管理工具
 
