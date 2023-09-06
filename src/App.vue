@@ -12,12 +12,10 @@ export default {
 
 <style>
 #app {
-  min-height: 100vh;
   background-color: #f9f9fa;
   font-family: 'PingFangSC', 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #000;
-  overflow-x: hidden;
 }
 </style>

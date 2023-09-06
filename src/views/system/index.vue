@@ -90,7 +90,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .system-manage {
-    padding: 15px;
+    padding: 20px;
 
     .tl {
         font-size: 16px;

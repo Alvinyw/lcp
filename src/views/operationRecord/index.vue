@@ -69,7 +69,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .operation-record {
-    padding: 15px;
+    padding: 20px;
 }
 </style>
     

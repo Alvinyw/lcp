@@ -112,7 +112,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .user-manage {
-  padding: 15px;
+  padding: 20px;
 }
 </style>
   

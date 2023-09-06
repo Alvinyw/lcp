@@ -1,5 +1,5 @@
 <template>
-  <el-container class="page-layout" style="height: 100vh; border: 1px solid #eee">
+  <el-container class="page-layout">
     <el-aside width="200px">
       <el-menu :default-active="activeMenu" @select="handleSelect">
         <el-menu-item index="1" @click="goToPage('TemplateIndex')">
@@ -26,8 +26,8 @@
       </el-menu>
     </el-aside>
 
-    <el-container>
-      <el-header>
+    <el-container style="padding-top: 60px; position: relative">
+      <el-header class="sec-top">
         <span class="page-name">{{ pageName }}</span>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
@@ -108,6 +108,9 @@ export default {
 
 <style lang="scss" scoped>
 .page-layout {
+  padding-left: 200px;
+  min-height: 100vh;
+
   .el-header {
     background-color: #fdfdfd;
     line-height: 60px;
@@ -117,12 +120,23 @@ export default {
     justify-content: space-between;
 
     .page-name {
-
       font-size: 16px;
     }
   }
 
+  .sec-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: calc(100% - 200px);
+  }
+
   .el-aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
     color: #aaa;
     background-color: #fff;
     border-right: solid 1px #aaa;

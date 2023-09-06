@@ -1,5 +1,5 @@
 <template>
-  <el-container class="home-index" style="height: 100vh; border: 1px solid #eee">
+  <el-container class="home-index">
     <el-main class="tp-wrapper" v-loading="loading" element-loading-text="模版列表加载中"
       element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)">
       <el-form :inline="true" :model="queryParame" class="demo-form-inline">
